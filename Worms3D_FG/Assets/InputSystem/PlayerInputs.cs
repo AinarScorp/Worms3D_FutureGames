@@ -54,6 +54,15 @@ namespace Main.Inputs
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""FirstPersonCamera"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""b5e11dcb-b6df-4990-8df5-77bdfdbe378a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
                     ""initialStateCheck"": false
                 }
             ],
@@ -134,6 +143,17 @@ namespace Main.Inputs
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""40719ce9-a1cd-4a28-a06d-8f4f1a62f1c5"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FirstPersonCamera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -145,6 +165,7 @@ namespace Main.Inputs
             m_Main_Move = m_Main.FindAction("Move", throwIfNotFound: true);
             m_Main_Look = m_Main.FindAction("Look", throwIfNotFound: true);
             m_Main_Jump = m_Main.FindAction("Jump", throwIfNotFound: true);
+            m_Main_FirstPersonCamera = m_Main.FindAction("FirstPersonCamera", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -207,6 +228,7 @@ namespace Main.Inputs
         private readonly InputAction m_Main_Move;
         private readonly InputAction m_Main_Look;
         private readonly InputAction m_Main_Jump;
+        private readonly InputAction m_Main_FirstPersonCamera;
         public struct MainActions
         {
             private @PlayerInputs m_Wrapper;
@@ -214,6 +236,7 @@ namespace Main.Inputs
             public InputAction @Move => m_Wrapper.m_Main_Move;
             public InputAction @Look => m_Wrapper.m_Main_Look;
             public InputAction @Jump => m_Wrapper.m_Main_Jump;
+            public InputAction @FirstPersonCamera => m_Wrapper.m_Main_FirstPersonCamera;
             public InputActionMap Get() { return m_Wrapper.m_Main; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -232,6 +255,9 @@ namespace Main.Inputs
                     @Jump.started -= m_Wrapper.m_MainActionsCallbackInterface.OnJump;
                     @Jump.performed -= m_Wrapper.m_MainActionsCallbackInterface.OnJump;
                     @Jump.canceled -= m_Wrapper.m_MainActionsCallbackInterface.OnJump;
+                    @FirstPersonCamera.started -= m_Wrapper.m_MainActionsCallbackInterface.OnFirstPersonCamera;
+                    @FirstPersonCamera.performed -= m_Wrapper.m_MainActionsCallbackInterface.OnFirstPersonCamera;
+                    @FirstPersonCamera.canceled -= m_Wrapper.m_MainActionsCallbackInterface.OnFirstPersonCamera;
                 }
                 m_Wrapper.m_MainActionsCallbackInterface = instance;
                 if (instance != null)
@@ -245,6 +271,9 @@ namespace Main.Inputs
                     @Jump.started += instance.OnJump;
                     @Jump.performed += instance.OnJump;
                     @Jump.canceled += instance.OnJump;
+                    @FirstPersonCamera.started += instance.OnFirstPersonCamera;
+                    @FirstPersonCamera.performed += instance.OnFirstPersonCamera;
+                    @FirstPersonCamera.canceled += instance.OnFirstPersonCamera;
                 }
             }
         }
@@ -254,6 +283,7 @@ namespace Main.Inputs
             void OnMove(InputAction.CallbackContext context);
             void OnLook(InputAction.CallbackContext context);
             void OnJump(InputAction.CallbackContext context);
+            void OnFirstPersonCamera(InputAction.CallbackContext context);
         }
     }
 }

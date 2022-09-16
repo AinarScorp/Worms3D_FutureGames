@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7107733720429024063}
   m_Layer: 0
   m_Name: CameraFollow
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7107733720429024062}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.48, z: 0}
+  m_LocalPosition: {x: 0, y: 1.47, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -57,7 +57,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7107733721020461146}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -240,7 +240,7 @@ Transform:
   m_GameObject: {fileID: 7107733721671389091}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.87, z: 0}
-  m_LocalScale: {x: 1, y: 1.7936, z: 1}
+  m_LocalScale: {x: 1, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7107733720429024063}
@@ -265,7 +265,7 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &7107733721671389150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -279,11 +279,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 1
+  _jumpForce: 5
   _rotationSmoothTime: 0.3
   _cameraTarget: {fileID: 7107733720429024063}
   cameraTopClamp: 50
   cameraBottomClamp: -40
   _cameraRotationSpeed: 0.2
+  _gravity: -15
+  groundedRadius: 0.5
+  _groundLayers:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &7107733721671389151
 MonoBehaviour:
   m_ObjectHideFlags: 0
