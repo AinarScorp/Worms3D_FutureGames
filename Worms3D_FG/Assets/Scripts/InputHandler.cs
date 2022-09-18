@@ -1,42 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace Main.Inputs
+namespace WormsGame.Inputs
 {
     public class InputHandler : MonoBehaviour
     {
+        #region Variables
+
         PlayerInputs _playerInputs;
         Vector2 _movementInputs;
         Vector2 _lookInput;
         bool _jumpInput = false;
         bool _isAiming;
+        bool _shootInput;
+        #endregion
 
+        #region Properties
+
+        
         public Vector2 MovementInputs => _movementInputs;
-
         public Vector2 LookInput => _lookInput;
-
         public bool JumpInput => _jumpInput;
-
         public bool IsAiming => _isAiming;
 
+        public bool ShootInput => _shootInput;
 
+        #endregion
+        
         #region Setup
 
-        void Awake()
-        {
-            _playerInputs = new PlayerInputs();
-        }
+        void Awake() => _playerInputs = new PlayerInputs();
 
-        void OnEnable()
-        {
-            _playerInputs.Enable();
-        }
+        void OnEnable() => _playerInputs.Enable();
 
-        void OnDisable()
-        {
-            _playerInputs.Disable();
-        }
+        void OnDisable() => _playerInputs.Disable();
 
         #endregion
 
@@ -48,6 +44,8 @@ namespace Main.Inputs
             _playerInputs.Main.Look.performed += ctx => _lookInput = ctx.ReadValue<Vector2>();
 
             _playerInputs.Main.FirstPersonCamera.performed += ctx => _isAiming = ctx.ReadValue<float>() > 0.1f;
+            _playerInputs.Main.Shoot.performed += ctx => _shootInput = ctx.ReadValue<float>() > 0.1f;
+
         }
     }
 }

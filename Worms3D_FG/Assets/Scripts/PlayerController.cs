@@ -1,10 +1,9 @@
 using System;
 using UnityEngine;
-using Main.Inputs;
-
+using WormsGame.Inputs;
 //To Do: 
 //•Think about windMechanic, you don't want to be able to move in the air the same you do in the ground
-namespace Main.Movement
+namespace WormsGame.Movement
 {
     [RequireComponent(typeof(InputHandler))]
     public class PlayerController : MonoBehaviour
@@ -44,6 +43,8 @@ namespace Main.Movement
 
         //Rotations
         float _targetAngle;
+        bool rotateOnMove = false;
+
         //Jumping
         float _jumpCooldownTimer;
 
@@ -57,12 +58,17 @@ namespace Main.Movement
         //cached
         InputHandler _inputHandler;
         CharacterController _characterController;
+        #endregion
 
+        #region Properties
+
+        
         public InputHandler InputHandler => _inputHandler;
 
         public Transform CameraTarget => _cameraTarget;
 
         #endregion
+
 
         #region Unity Logic
 
@@ -73,10 +79,15 @@ namespace Main.Movement
             _cameraMain = Camera.main.transform;
         }
 
+        void OnEnable() => _inputHandler.enabled = true;
+
+        void OnDisable() => _inputHandler.enabled = false;
+
         void Start()
         {
             _cameraYaw = _cameraTarget.rotation.eulerAngles.y;
         }
+
 
         void Update()
         {
@@ -95,7 +106,6 @@ namespace Main.Movement
 
         #region Handlers
 
-
         void HandleMovement()
         {
             float horizontalSpeed = _inputHandler.MovementInputs == Vector2.zero ? 0.0f : _moveSpeed;
@@ -107,7 +117,7 @@ namespace Main.Movement
             Vector3 moveInputs = new Vector3(_inputHandler.MovementInputs.x, 0.0f, _inputHandler.MovementInputs.y)
                 .normalized;
             
-            if (_inputHandler.MovementInputs != Vector2.zero)
+            if (_inputHandler.MovementInputs != Vector2.zero || rotateOnMove)
             {
                 _targetAngle = Mathf.Atan2(moveInputs.x, moveInputs.z) * Mathf.Rad2Deg + _cameraMain.eulerAngles.y;
                 float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetAngle, ref _turnSmoothVelocity,
@@ -186,6 +196,7 @@ namespace Main.Movement
         
         #endregion
 
+        public void SetRotateOnMove(bool value) => rotateOnMove = value;
         void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.blue;
@@ -201,7 +212,7 @@ namespace Main.Movement
         {
             return Physics.CheckSphere(transform.position, groundedRadius, _groundLayers);
         }
-
+        
 
 
 
@@ -213,3 +224,4 @@ namespace Main.Movement
         }
     }
 }
+
