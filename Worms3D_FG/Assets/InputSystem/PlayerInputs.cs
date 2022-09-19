@@ -176,6 +176,54 @@ namespace WormsGame.Inputs
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""TurnHandler"",
+            ""id"": ""d1e43958-6bed-48f5-b64a-8136a1639881"",
+            ""actions"": [
+                {
+                    ""name"": ""NextUnit"",
+                    ""type"": ""Button"",
+                    ""id"": ""ed4daf24-2398-436d-bcdd-f24db6c722e9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PrevUnit"",
+                    ""type"": ""Button"",
+                    ""id"": ""adfcaba3-b3af-44f3-9389-eb3dd912c1e8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""76c8f7ee-aef9-4f20-92c1-7f1ff6392646"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NextUnit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1f5bfb61-3f61-4a46-ac5a-1997bf34edf5"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PrevUnit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -187,6 +235,10 @@ namespace WormsGame.Inputs
             m_Main_Jump = m_Main.FindAction("Jump", throwIfNotFound: true);
             m_Main_FirstPersonCamera = m_Main.FindAction("FirstPersonCamera", throwIfNotFound: true);
             m_Main_Shoot = m_Main.FindAction("Shoot", throwIfNotFound: true);
+            // TurnHandler
+            m_TurnHandler = asset.FindActionMap("TurnHandler", throwIfNotFound: true);
+            m_TurnHandler_NextUnit = m_TurnHandler.FindAction("NextUnit", throwIfNotFound: true);
+            m_TurnHandler_PrevUnit = m_TurnHandler.FindAction("PrevUnit", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -307,6 +359,47 @@ namespace WormsGame.Inputs
             }
         }
         public MainActions @Main => new MainActions(this);
+
+        // TurnHandler
+        private readonly InputActionMap m_TurnHandler;
+        private ITurnHandlerActions m_TurnHandlerActionsCallbackInterface;
+        private readonly InputAction m_TurnHandler_NextUnit;
+        private readonly InputAction m_TurnHandler_PrevUnit;
+        public struct TurnHandlerActions
+        {
+            private @PlayerInputs m_Wrapper;
+            public TurnHandlerActions(@PlayerInputs wrapper) { m_Wrapper = wrapper; }
+            public InputAction @NextUnit => m_Wrapper.m_TurnHandler_NextUnit;
+            public InputAction @PrevUnit => m_Wrapper.m_TurnHandler_PrevUnit;
+            public InputActionMap Get() { return m_Wrapper.m_TurnHandler; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
+            public bool enabled => Get().enabled;
+            public static implicit operator InputActionMap(TurnHandlerActions set) { return set.Get(); }
+            public void SetCallbacks(ITurnHandlerActions instance)
+            {
+                if (m_Wrapper.m_TurnHandlerActionsCallbackInterface != null)
+                {
+                    @NextUnit.started -= m_Wrapper.m_TurnHandlerActionsCallbackInterface.OnNextUnit;
+                    @NextUnit.performed -= m_Wrapper.m_TurnHandlerActionsCallbackInterface.OnNextUnit;
+                    @NextUnit.canceled -= m_Wrapper.m_TurnHandlerActionsCallbackInterface.OnNextUnit;
+                    @PrevUnit.started -= m_Wrapper.m_TurnHandlerActionsCallbackInterface.OnPrevUnit;
+                    @PrevUnit.performed -= m_Wrapper.m_TurnHandlerActionsCallbackInterface.OnPrevUnit;
+                    @PrevUnit.canceled -= m_Wrapper.m_TurnHandlerActionsCallbackInterface.OnPrevUnit;
+                }
+                m_Wrapper.m_TurnHandlerActionsCallbackInterface = instance;
+                if (instance != null)
+                {
+                    @NextUnit.started += instance.OnNextUnit;
+                    @NextUnit.performed += instance.OnNextUnit;
+                    @NextUnit.canceled += instance.OnNextUnit;
+                    @PrevUnit.started += instance.OnPrevUnit;
+                    @PrevUnit.performed += instance.OnPrevUnit;
+                    @PrevUnit.canceled += instance.OnPrevUnit;
+                }
+            }
+        }
+        public TurnHandlerActions @TurnHandler => new TurnHandlerActions(this);
         public interface IMainActions
         {
             void OnMove(InputAction.CallbackContext context);
@@ -314,6 +407,11 @@ namespace WormsGame.Inputs
             void OnJump(InputAction.CallbackContext context);
             void OnFirstPersonCamera(InputAction.CallbackContext context);
             void OnShoot(InputAction.CallbackContext context);
+        }
+        public interface ITurnHandlerActions
+        {
+            void OnNextUnit(InputAction.CallbackContext context);
+            void OnPrevUnit(InputAction.CallbackContext context);
         }
     }
 }

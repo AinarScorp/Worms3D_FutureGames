@@ -8,12 +8,12 @@ namespace WormsGame.Cameras
     {
         [SerializeField] CinemachineVirtualCamera firstPersonCamera;
         [SerializeField] CinemachineVirtualCamera thirdPersonCamera;
-        [SerializeField] PlayerController currentPlayer;
+        [SerializeField] PlayerController currentUnit;
 
 
         void Start()
         {
-            FocusOnCurrentPlayer(currentPlayer);
+            FocusOnCurrentPlayer(currentUnit);
         }
 
         void Update()
@@ -23,11 +23,11 @@ namespace WormsGame.Cameras
 
         void ControlPerspective()
         {
-            if (currentPlayer.InputHandler.IsAiming && !firstPersonCamera.enabled)
+            if (currentUnit.InputHandler.IsAiming && !firstPersonCamera.enabled)
             {
                 ChangeCamera(true);
             }
-            else if(!currentPlayer.InputHandler.IsAiming && firstPersonCamera.enabled)
+            else if(!currentUnit.InputHandler.IsAiming && firstPersonCamera.enabled)
             {
                 ChangeCamera(false);
             }
@@ -35,19 +35,24 @@ namespace WormsGame.Cameras
 
         void ChangeCamera(bool setFirstPersonCamera)
         {
+            if (setFirstPersonCamera)
+            {
+                currentUnit.MatchCameras();
+                
+            }
             firstPersonCamera.enabled = setFirstPersonCamera;
             thirdPersonCamera.enabled = !setFirstPersonCamera;
-            currentPlayer.SetRotateOnMove(firstPersonCamera.enabled);
+            currentUnit.SetRotateOnMove(firstPersonCamera.enabled);
 
         }
 
-        void FocusOnCurrentPlayer(PlayerController currentPlayer)
+        public void FocusOnCurrentPlayer(PlayerController currentPlayer)
         {
-            this.currentPlayer = currentPlayer;
             firstPersonCamera.enabled = false;
             thirdPersonCamera.enabled = true;
-            firstPersonCamera.Follow = currentPlayer.CameraTarget;
-            thirdPersonCamera.Follow = currentPlayer.CameraTarget;
+            firstPersonCamera.Follow = currentPlayer.FirstPersonCamTarget;
+            thirdPersonCamera.Follow = currentPlayer.ThirdPersonCamTarget;
+            this.currentUnit = currentPlayer;
         }
     }
 }

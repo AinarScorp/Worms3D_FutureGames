@@ -152,6 +152,54 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "TurnHandler",
+            "id": "d1e43958-6bed-48f5-b64a-8136a1639881",
+            "actions": [
+                {
+                    "name": "NextUnit",
+                    "type": "Button",
+                    "id": "ed4daf24-2398-436d-bcdd-f24db6c722e9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PrevUnit",
+                    "type": "Button",
+                    "id": "adfcaba3-b3af-44f3-9389-eb3dd912c1e8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "76c8f7ee-aef9-4f20-92c1-7f1ff6392646",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "NextUnit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1f5bfb61-3f61-4a46-ac5a-1997bf34edf5",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PrevUnit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

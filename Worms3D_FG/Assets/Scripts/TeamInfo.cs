@@ -1,4 +1,4 @@
-namespace WormsGame.Teams
+namespace WormsGame.Core
 {
     public enum TeamAlliance
     {

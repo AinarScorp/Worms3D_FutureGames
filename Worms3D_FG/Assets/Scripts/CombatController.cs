@@ -10,14 +10,19 @@ namespace WormsGame.Combat
     public class CombatController : MonoBehaviour
     {
         [SerializeField] Weapon _currentWeapon;
+        [SerializeField] Transform _projectileSpawnPoint; // use frist person camera
         [SerializeField] Transform _handTransform;
+
         InputHandler _inputHandler;
         bool _hasShot;
         void Awake()
         {
             _inputHandler = GetComponent<InputHandler>();
-        }
 
+            _inputHandler.SubscribeToActivation(()=>this.enabled = true, true);
+            _inputHandler.SubscribeToActivation(()=>this.enabled = false, false);
+        }
+        
         void OnEnable()
         {
             _hasShot = false;
@@ -26,17 +31,28 @@ namespace WormsGame.Combat
         void Start()
         {
             _currentWeapon.SpawnWeapon(_handTransform);
+
         }
 
         void Update()
         {
-            if (!_hasShot &&_inputHandler.ShootInput )
+
+            if (!_hasShot && _inputHandler.ShootInput)
             {
                 _hasShot = true;
-                _currentWeapon.Fire(transform.position,transform.forward);
+                Vector3 direction = _projectileSpawnPoint.rotation * Vector3.forward;
+            
+                _currentWeapon.Fire(_projectileSpawnPoint.position, direction);
+            }
+            else if (!_inputHandler.ShootInput)
+            {
+                _hasShot = false;
             }
         }
+
+
     }
+    
     
     
 }

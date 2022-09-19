@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using WormsGame.Inputs;
+
 //To Do: 
 //•Think about windMechanic, you don't want to be able to move in the air the same you do in the ground
 namespace WormsGame.Movement
@@ -10,36 +11,37 @@ namespace WormsGame.Movement
     {
         #region Exposed variables
 
-        [Header("PlayerSettings")] 
-        [SerializeField] float _moveSpeed = 2f;
+        [Header("PlayerSettings")]
+        [SerializeField]
+        float _moveSpeed = 2f;
 
         [Header("Rotation")] [SerializeField] float _rotationSmoothTime = 0.1f;
 
-        [Header("Camera Settings")] 
-        [SerializeField] Transform _cameraTarget;
+        [Header("Camera Settings")] [SerializeField]
+        Transform _thirdPersonCamTarget;
+
+        [SerializeField] Transform _firstPersonCamTarget;
+
 
         [SerializeField] float cameraTopClamp = 50f, cameraBottomClamp = -50f;
         [SerializeField] float _cameraRotationSpeed = 0.5f;
 
-        [Header("Jumping")] 
-        [SerializeField] float _heightToReach = 5f;
+        [Header("Jumping")] [SerializeField] float _heightToReach = 5f;
         [SerializeField] float _windMultilpier = 0.5f;
 
         [SerializeField] float _jumpCooldown = 0.5f;
-        
-        
-        [Header("Physics")] 
-        [SerializeField] float _gravity = -15;
+
+
+        [Header("Physics")] [SerializeField] float _gravity = -15;
         [SerializeField] float _heavierGravity = -30;
 
         [SerializeField] float _gravityMulitplier = 2.0f;
         [SerializeField] float groundedRadius = 0.5f;
         [SerializeField] LayerMask _groundLayers;
-        #endregion
-        
-        #region variables
 
-        
+        #endregion
+
+        #region variables
 
         //Rotations
         float _targetAngle;
@@ -54,18 +56,21 @@ namespace WormsGame.Movement
         // Camera Cinemachine
         Transform _cameraMain;
         float _cameraYaw, _cameraPitch;
+
         float _turnSmoothVelocity;
+
         //cached
         InputHandler _inputHandler;
         CharacterController _characterController;
+
         #endregion
 
         #region Properties
 
-        
         public InputHandler InputHandler => _inputHandler;
 
-        public Transform CameraTarget => _cameraTarget;
+        public Transform ThirdPersonCamTarget => _thirdPersonCamTarget;
+        public Transform FirstPersonCamTarget => _firstPersonCamTarget;
 
         #endregion
 
@@ -77,6 +82,8 @@ namespace WormsGame.Movement
             _characterController = GetComponent<CharacterController>();
             _inputHandler = GetComponent<InputHandler>();
             _cameraMain = Camera.main.transform;
+            _inputHandler.SubscribeToActivation(()=>this.enabled = true, true);
+            _inputHandler.SubscribeToActivation(()=>this.enabled = false, false);
         }
 
         void OnEnable() => _inputHandler.enabled = true;
@@ -85,7 +92,8 @@ namespace WormsGame.Movement
 
         void Start()
         {
-            _cameraYaw = _cameraTarget.rotation.eulerAngles.y;
+            _cameraYaw = _thirdPersonCamTarget.rotation.eulerAngles.y;
+
         }
 
 
@@ -94,7 +102,6 @@ namespace WormsGame.Movement
             HandleMovement();
             Jump();
             Gravity();
-            
         }
 
         void LateUpdate()
@@ -116,14 +123,13 @@ namespace WormsGame.Movement
 
             Vector3 moveInputs = new Vector3(_inputHandler.MovementInputs.x, 0.0f, _inputHandler.MovementInputs.y)
                 .normalized;
-            
+
             if (_inputHandler.MovementInputs != Vector2.zero || rotateOnMove)
             {
                 _targetAngle = Mathf.Atan2(moveInputs.x, moveInputs.z) * Mathf.Rad2Deg + _cameraMain.eulerAngles.y;
                 float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetAngle, ref _turnSmoothVelocity,
                     _rotationSmoothTime);
                 transform.rotation = Quaternion.Euler(0f, angle, 0f);
-                
             }
 
             Vector3 moveDirection = Quaternion.Euler(0f, _targetAngle, 0f) * Vector3.forward;
@@ -144,7 +150,11 @@ namespace WormsGame.Movement
 
             _cameraYaw = ClampAngle(_cameraYaw, float.MinValue, float.MaxValue);
             _cameraPitch = ClampAngle(_cameraPitch, cameraBottomClamp, cameraTopClamp);
-            _cameraTarget.rotation = Quaternion.Euler(-_cameraPitch, _cameraYaw, 0.0f);
+
+            if (_inputHandler.IsAiming)
+                _firstPersonCamTarget.rotation = Quaternion.Euler(-_cameraPitch, _cameraYaw, 0.0f);
+            else
+                _thirdPersonCamTarget.rotation = Quaternion.Euler(-_cameraPitch, _cameraYaw, 0.0f);
         }
 
 
@@ -173,6 +183,7 @@ namespace WormsGame.Movement
                     _verticalVelocity = -2.0f;
                     pushDownMultiplier = 1f;
                 }
+
                 gravityToUse *= pushDownMultiplier;
             }
             // if (IsGrounded() && _verticalVelocity < 0.0f)
@@ -193,10 +204,22 @@ namespace WormsGame.Movement
 
             _verticalVelocity += gravityToUse * Time.deltaTime;
         }
-        
+
         #endregion
 
+
+        public void MatchCameras()
+        {
+            _firstPersonCamTarget.rotation = _thirdPersonCamTarget.rotation;
+        }
+
+        public Transform GetCurrentCameraTransform()
+        {
+            return _inputHandler.IsAiming ? _firstPersonCamTarget : _thirdPersonCamTarget;
+        }
+
         public void SetRotateOnMove(bool value) => rotateOnMove = value;
+
         void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.blue;
@@ -212,8 +235,6 @@ namespace WormsGame.Movement
         {
             return Physics.CheckSphere(transform.position, groundedRadius, _groundLayers);
         }
-        
-
 
 
         private float ClampAngle(float lfAngle, float lfMin, float lfMax)
@@ -224,4 +245,3 @@ namespace WormsGame.Movement
         }
     }
 }
-

@@ -7,23 +7,21 @@ namespace WormsGame.Combat
     [CreateAssetMenu(fileName = "Weapon", menuName = "Weapons/Make New Weapon", order = 0)]
     public class Weapon : ScriptableObject
     {
-        [SerializeField] float _weaponDamage = 10f;
+        [SerializeField] int _weaponDamage = 10;
         [SerializeField] Projectile projectilePrefab;
         [SerializeField] GameObject _weaponPrefab;
-        [SerializeField] Transform _gunPoint;
         
         const string WEAPON_NAME = "Weapon";
 
-        public float WeaponDamage => _weaponDamage;
+        public int WeaponDamage => _weaponDamage;
 
         public void Fire(Vector3 spawnPos,Vector3 direction)
         {
             Debug.Log(this.name + " with the name " + _weaponPrefab.name + " is Shooting");
             
             if (projectilePrefab == null) return;
-            
             Projectile projectile = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
-            projectile.SetDirection(direction);
+            projectile.SetupProjectile(direction, this);
         }
         
         public void SpawnWeapon(Transform handTransform)
