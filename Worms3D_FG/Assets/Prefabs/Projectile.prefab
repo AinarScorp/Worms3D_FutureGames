@@ -82,7 +82,10 @@ MonoBehaviour:
     m_Bits: 65
   _gravity: 10
   _explosionRadius: 4
-  _obstuctionMask:
+  _targetLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
+  _obstuctionLayerMask:
     serializedVersion: 2
     m_Bits: 1
 --- !u!1 &7716090374871524637

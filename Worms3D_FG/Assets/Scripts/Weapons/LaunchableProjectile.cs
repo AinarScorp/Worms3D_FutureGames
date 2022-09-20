@@ -9,12 +9,13 @@ namespace WormsGame.Combat
     public class LaunchableProjectile : Projectile
     {
         [SerializeField] float _explosionRadius = 4.0f;
-        LaunchableWeapon _weapon;
-        bool hasCollided = false;
-        [SerializeField] LayerMask _obstuctionMask;
+        [SerializeField] LayerMask _targetLayerMask;
+        [SerializeField] LayerMask _obstuctionLayerMask;
 
+        bool hasCollided;
         Vector3 _exlosionPoint;
         
+        LaunchableWeapon _weapon;
         void FixedUpdate()
         {
             if (hasCollided) return;
@@ -42,6 +43,7 @@ namespace WormsGame.Combat
                 _exlosionPoint = transform.position;
                 Explode();
                 //Debug.Log("Hit with Layermask");
+                this.gameObject.SetActive(false);
             }
         }
 
@@ -55,23 +57,40 @@ namespace WormsGame.Combat
                 Unit unit = collider.GetComponent<Unit>();
                 if (unit !=null)
                 {
-                    CalculateDamage(unit);
-                    //unit.ModifyHealth(-_weapon.MaxDamage);
+                    unit.ModifyHealth(-DamageFromExplosion(unit));
                 }
             }
         }
-
-        void CalculateDamage(Unit targetUnit)
+        //here I should have a way to calculate the obstacles and distance
+        int DamageFromExplosion(Unit targetUnit)
         {
-            float distanceToTarget = Vector3.Distance(_exlosionPoint, targetUnit.transform.position);
-            Vector3 directionToTarget = (targetUnit.transform.position - _exlosionPoint).normalized;
+            bool wasObstucted = false;
+            CharacterController characterController = targetUnit.GetComponent<CharacterController>();
+            Vector3 targetCenter = targetUnit.transform.position + new Vector3(0.0f, characterController.height * 0.5f, 0.0f);
             RaycastHit hit;
-            if (Physics.Raycast(_exlosionPoint, directionToTarget,out hit,distanceToTarget,_obstuctionMask.value))
+            RaycastHit testHit;
+            
+            Vector3 directionToTarget = (targetCenter - _exlosionPoint).normalized;
+            //this checks if there's a wall in between and if yes it will reduce radius check
+            if (Physics.Raycast(_exlosionPoint, directionToTarget,out testHit,_explosionRadius,_obstuctionLayerMask.value))
             {
-                
-                Debug.DrawLine(_exlosionPoint,  _exlosionPoint+ directionToTarget * distanceToTarget,Color.blue, 50f);
-                print($"{transform.position} + {targetUnit.name} + collider: {hit.collider.name}");
+                print($"{transform.position} + {targetUnit.name} + collider: {testHit.collider.name}");
+                wasObstucted = true;
             }
+
+            float maxCheckDistance = wasObstucted ? _explosionRadius * 0.5f : _explosionRadius;
+            if (Physics.Raycast(_exlosionPoint, directionToTarget,out hit,maxCheckDistance,_targetLayerMask.value))
+            {
+                float distanceToTarget = Vector3.Distance(_exlosionPoint, hit.point);
+                
+                int receivedDamage = Mathf.FloorToInt(Mathf.Lerp(_weapon.MaxDamage, _weapon.MinDamage, distanceToTarget / _explosionRadius));
+                print($"would hit {targetUnit.name} for {receivedDamage}");
+                //Debug.DrawLine(_exlosionPoint,  _exlosionPoint+ directionToTarget * distanceToTarget,Color.blue, 50f);
+                //print($"{transform.position} + {targetUnit.name} + collider: {hit.collider.name}");
+                return receivedDamage;
+            }
+
+            return 0;
         }
 
         void OnDrawGizmosSelected()
@@ -80,8 +99,6 @@ namespace WormsGame.Combat
             {
                 Gizmos.color = Color.red;
                 Gizmos.DrawWireSphere(_exlosionPoint,_explosionRadius);
-                Gizmos.color = Color.magenta;
-                Gizmos.DrawWireSphere(transform.position,_explosionRadius);
             }
             
         }
