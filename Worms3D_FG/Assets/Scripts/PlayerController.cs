@@ -11,34 +11,40 @@ namespace WormsGame.Movement
     {
         #region Exposed variables
 
-        [Header("PlayerSettings")]
-        [SerializeField]
-        float _moveSpeed = 2f;
+        [Header("PlayerSettings")] //
+        [SerializeField] float _moveSpeed = 2f;
 
-        [Header("Rotation")] [SerializeField] float _rotationSmoothTime = 0.1f;
+        
+        [Header("Rotation")] //
+        [SerializeField] float _rotationSmoothTime = 0.1f;
 
-        [Header("Camera Settings")] [SerializeField]
-        Transform _thirdPersonCamTarget;
-
+        
+        [Header("Camera Settings")] //
+        [SerializeField] Transform _thirdPersonCamTarget;
         [SerializeField] Transform _firstPersonCamTarget;
 
 
         [SerializeField] float cameraTopClamp = 50f, cameraBottomClamp = -50f;
         [SerializeField] float _cameraRotationSpeed = 0.5f;
 
-        [Header("Jumping")] [SerializeField] float _heightToReach = 5f;
+        
+        [Header("Jumping")] //
+        [SerializeField] float _heightToReach = 5f;
         [SerializeField] float _windMultilpier = 0.5f;
 
         [SerializeField] float _jumpCooldown = 0.5f;
 
 
-        [Header("Physics")] [SerializeField] float _gravity = -15;
+        [Header("Physics")] //
+        [SerializeField] float _gravity = -15;
         [SerializeField] float _heavierGravity = -30;
 
         [SerializeField] float _gravityMulitplier = 2.0f;
         [SerializeField] float groundedRadius = 0.5f;
         [SerializeField] LayerMask _groundLayers;
 
+        [Header("Animations")] 
+        [SerializeField] Animator _animator;
         #endregion
 
         #region variables
@@ -68,7 +74,6 @@ namespace WormsGame.Movement
         #region Properties
 
         public InputHandler InputHandler => _inputHandler;
-
         public Transform ThirdPersonCamTarget => _thirdPersonCamTarget;
         public Transform FirstPersonCamTarget => _firstPersonCamTarget;
 
@@ -82,8 +87,8 @@ namespace WormsGame.Movement
             _characterController = GetComponent<CharacterController>();
             _inputHandler = GetComponent<InputHandler>();
             _cameraMain = Camera.main.transform;
-            _inputHandler.SubscribeToActivation(()=>this.enabled = true, true);
-            _inputHandler.SubscribeToActivation(()=>this.enabled = false, false);
+            _inputHandler.SubscribeToActivation(() => this.enabled = true, true);
+            _inputHandler.SubscribeToActivation(() => this.enabled = false, false);
         }
 
         void OnEnable() => _inputHandler.enabled = true;
@@ -93,7 +98,6 @@ namespace WormsGame.Movement
         void Start()
         {
             _cameraYaw = _thirdPersonCamTarget.rotation.eulerAngles.y;
-
         }
 
 
@@ -121,14 +125,13 @@ namespace WormsGame.Movement
                 horizontalSpeed *= _windMultilpier;
             }
 
-            Vector3 moveInputs = new Vector3(_inputHandler.MovementInputs.x, 0.0f, _inputHandler.MovementInputs.y)
-                .normalized;
-
             if (_inputHandler.MovementInputs != Vector2.zero || rotateOnMove)
             {
+
+                Vector3 moveInputs = new Vector3(_inputHandler.MovementInputs.x, 0.0f, _inputHandler.MovementInputs.y).normalized;
+                
                 _targetAngle = Mathf.Atan2(moveInputs.x, moveInputs.z) * Mathf.Rad2Deg + _cameraMain.eulerAngles.y;
-                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetAngle, ref _turnSmoothVelocity,
-                    _rotationSmoothTime);
+                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetAngle, ref _turnSmoothVelocity, _rotationSmoothTime);
                 transform.rotation = Quaternion.Euler(0f, angle, 0f);
             }
 
@@ -137,6 +140,11 @@ namespace WormsGame.Movement
 
             _characterController.Move(moveDirection.normalized * (horizontalSpeed * Time.deltaTime) +
                                       verticalVelocityVector * Time.deltaTime);
+            
+            if (_animator != null )
+                _animator.SetBool("isMoving", horizontalSpeed > 0.1f);
+
+
         }
 
 

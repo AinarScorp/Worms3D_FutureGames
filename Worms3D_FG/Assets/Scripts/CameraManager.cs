@@ -10,12 +10,7 @@ namespace WormsGame.Cameras
         [SerializeField] CinemachineVirtualCamera thirdPersonCamera;
         [SerializeField] PlayerController currentUnit;
 
-
-        void Start()
-        {
-            FocusOnCurrentPlayer(currentUnit);
-        }
-
+        
         void Update()
         {
             ControlPerspective();
