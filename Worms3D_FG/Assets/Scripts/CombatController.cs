@@ -12,7 +12,7 @@ namespace WormsGame.Combat
         [SerializeField] Weapon _currentWeapon;
         [SerializeField] Transform _projectileSpawnPoint; // use frist person camera
         [SerializeField] Transform _handTransform;
-
+        [SerializeField] float _launchForce = 20.0f;
         InputHandler _inputHandler;
         bool _hasShot;
         void Awake()
@@ -42,7 +42,7 @@ namespace WormsGame.Combat
                 _hasShot = true;
                 Vector3 direction = _projectileSpawnPoint.rotation * Vector3.forward;
             
-                _currentWeapon.Fire(_projectileSpawnPoint.position, direction);
+                _currentWeapon.Fire(_projectileSpawnPoint.position,  _launchForce,direction);
             }
             else if (!_inputHandler.ShootInput)
             {

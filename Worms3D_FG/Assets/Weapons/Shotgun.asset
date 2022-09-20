@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 857e0eccef5cceb43b5ac62e1254104b, type: 3}
+  m_Script: {fileID: 11500000, guid: 81612d517b632e846b7c4f2b9c4d6b4c, type: 3}
   m_Name: Shotgun
   m_EditorClassIdentifier: 
-  _weaponDamage: 5
-  projectilePrefab: {fileID: 6688799708024327777, guid: 205f5cd6e0e00b14bbba075c5170edf2,
-    type: 3}
   _weaponPrefab: {fileID: 964709718343122173, guid: 9eae2d848b2e061499ba915eaba1c5c0,
     type: 3}
+  projectilePrefab: {fileID: 1379397458754860071, guid: 205f5cd6e0e00b14bbba075c5170edf2,
+    type: 3}
+  _maxDamage: 10

@@ -90,10 +90,7 @@ namespace WormsGame.Movement
             _inputHandler.SubscribeToActivation(() => this.enabled = true, true);
             _inputHandler.SubscribeToActivation(() => this.enabled = false, false);
         }
-
-        void OnEnable() => _inputHandler.enabled = true;
-
-        void OnDisable() => _inputHandler.enabled = false;
+        
 
         void Start()
         {

@@ -9,11 +9,11 @@ namespace WormsGame.Combat
     [RequireComponent(typeof(Rigidbody))]
     public class Projectile : MonoBehaviour
     {
-        [SerializeField] float _speed;
-        [SerializeField]LayerMask _layerMask;
-        Weapon _weapon;
-        Rigidbody _rigidbody;
+        [SerializeField] protected LayerMask _collisionMask;
+        [SerializeField] protected float _gravity = -10;
+        protected Rigidbody _rigidbody;
         Vector3 _direction = Vector3.zero;
+        float _launchForce;
 
         void Awake()
         {
@@ -21,30 +21,32 @@ namespace WormsGame.Combat
         }
 
 
-        void FixedUpdate()
-        {
-            _rigidbody.velocity = _direction * (_speed * Time.deltaTime);
-        }
+        // void FixedUpdate()
+        // {
+        //     Vector3 vericalVelocity = Vector3.down * _gravity * Time.deltaTime;
+        //     _rigidbody.AddForce(vericalVelocity, ForceMode.VelocityChange);
+        // }
 
-        public void SetupProjectile(Vector3 newDirection, Weapon weapon)
+        public virtual void SetupProjectile(Vector3 newDirection, Weapon weapon, float launchForce)
         {
-            _weapon = weapon;
             _direction = newDirection;
-            Destroy(this.gameObject,20);
+            _launchForce = launchForce;
+            _rigidbody.velocity = _direction * _launchForce;
+
         }
 
-        void OnTriggerEnter(Collider other)
-        {
-            if ((_layerMask.value & (1 << other.transform.gameObject.layer)) > 0)
-            {
-                if (other.GetComponent<InputHandler>().enabled) return;
-                Unit hitUnit = other.GetComponent<Unit>();
-                hitUnit?.ModifyHealth(-_weapon.WeaponDamage);
-                
-                Debug.Log("Hit with Layermask");
-                Destroy(this.gameObject);
-                
-            }
-        }
+        // void OnTriggerEnter(Collider other)
+        // {
+        //     if ((_layerMask.value & (1 << other.transform.gameObject.layer)) > 0)
+        //     {
+        //         if (other.GetComponent<InputHandler>().enabled) return;
+        //         Unit hitUnit = other.GetComponent<Unit>();
+        //         hitUnit?.ModifyHealth(-_weapon.WeaponDamage);
+        //         
+        //         Debug.Log("Hit with Layermask");
+        //         Destroy(this.gameObject);
+        //         
+        //     }
+        // }
     }
 }

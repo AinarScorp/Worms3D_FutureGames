@@ -372,9 +372,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab740fd4e51d0b2468a84b3ce03eeeca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _currentWeapon: {fileID: 11400000, guid: 34d04db5d1f3b6b4db0d0bdb7e90d8a8, type: 2}
+  _currentWeapon: {fileID: 11400000, guid: 961a83c562e9ab744b4fda91764ee065, type: 2}
   _projectileSpawnPoint: {fileID: 7106129188537164370}
   _handTransform: {fileID: 5480354756336135964}
+  _launchForce: 20
 --- !u!114 &4669351187706920028
 MonoBehaviour:
   m_ObjectHideFlags: 0

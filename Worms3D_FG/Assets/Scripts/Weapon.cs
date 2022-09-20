@@ -4,25 +4,12 @@ using UnityEngine;
 
 namespace WormsGame.Combat
 {    
-    [CreateAssetMenu(fileName = "Weapon", menuName = "Weapons/Make New Weapon", order = 0)]
-    public class Weapon : ScriptableObject
+    public abstract class  Weapon : ScriptableObject
     {
-        [SerializeField] int _weaponDamage = 10;
-        [SerializeField] Projectile projectilePrefab;
         [SerializeField] GameObject _weaponPrefab;
         
         const string WEAPON_NAME = "Weapon";
 
-        public int WeaponDamage => _weaponDamage;
-
-        public void Fire(Vector3 spawnPos,Vector3 direction)
-        {
-            Debug.Log(this.name + " with the name " + _weaponPrefab.name + " is Shooting");
-            
-            if (projectilePrefab == null) return;
-            Projectile projectile = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
-            projectile.SetupProjectile(direction, this);
-        }
         
         public void SpawnWeapon(Transform handTransform)
         {
@@ -45,6 +32,11 @@ namespace WormsGame.Combat
 
             oldWeapon.name = "BEING DESTROYED";
             Destroy(oldWeapon.gameObject);
+        }
+
+        public virtual void Fire(Vector3 spawnPos, float launchForce, Vector3 direction)
+        {
+            Debug.Log(this.name + " with the name " + _weaponPrefab.name + " is Shooting");
         }
     }
 }
