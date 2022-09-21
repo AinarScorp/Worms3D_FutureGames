@@ -38,5 +38,10 @@ namespace WormsGame.Combat
         {
             Debug.Log(this.name + " with the name " + _weaponPrefab.name + " is Shooting");
         }
+
+        public virtual void Fire(Vector3 direction)
+        {
+            
+        }
     }
 }

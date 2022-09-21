@@ -343,7 +343,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 10
-  _rotationSmoothTime: 0.3
+  _rotationSmoothTime: 0.1
   _thirdPersonCamTarget: {fileID: 7107733720429024063}
   _firstPersonCamTarget: {fileID: 7106129188537164370}
   cameraTopClamp: 50

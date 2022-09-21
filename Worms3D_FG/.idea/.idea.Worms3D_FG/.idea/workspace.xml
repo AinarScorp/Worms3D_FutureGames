@@ -8,6 +8,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Weapons/DirectWeapon.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Weapons/LaunchableProjectile.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Weapons/LaunchableWeapon.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -76,6 +77,7 @@
       <workItem from="1663665190212" duration="3428000" />
       <workItem from="1663687970169" duration="9374000" />
       <workItem from="1663704921346" duration="1939000" />
+      <workItem from="1663746763414" duration="3882000" />
     </task>
     <servers />
   </component>

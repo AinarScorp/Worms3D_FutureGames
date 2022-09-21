@@ -100,14 +100,19 @@ namespace WormsGame.Movement
 
         void Update()
         {
-            HandleMovement();
-            Jump();
+            if (!_inputHandler.ShootInput)
+            {
+                HandleMovement();
+                Jump();
+                
+            }
             Gravity();
         }
 
         void LateUpdate()
-        {
-            HandleCameraRotation();
+        {            
+            if (!_inputHandler.ShootInput)
+                HandleCameraRotation();
         }
 
         #endregion
@@ -116,7 +121,7 @@ namespace WormsGame.Movement
 
         void HandleMovement()
         {
-            float horizontalSpeed = _inputHandler.MovementInputs == Vector2.zero ? 0.0f : _moveSpeed;
+            float horizontalSpeed = _inputHandler.MovementInputs == Vector2.zero || _inputHandler.IsAiming ? 0.0f : _moveSpeed;
             if (!IsGrounded())
             {
                 horizontalSpeed *= _windMultilpier;
@@ -124,8 +129,9 @@ namespace WormsGame.Movement
 
             if (_inputHandler.MovementInputs != Vector2.zero || rotateOnMove)
             {
-
-                Vector3 moveInputs = new Vector3(_inputHandler.MovementInputs.x, 0.0f, _inputHandler.MovementInputs.y).normalized;
+                float moveInputX = rotateOnMove ? 0.0f : _inputHandler.MovementInputs.x;
+                float moveInputY = rotateOnMove ? 0.0f : _inputHandler.MovementInputs.y;
+                Vector3 moveInputs = new Vector3(moveInputX, 0.0f, moveInputY).normalized;
                 
                 _targetAngle = Mathf.Atan2(moveInputs.x, moveInputs.z) * Mathf.Rad2Deg + _cameraMain.eulerAngles.y;
                 float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetAngle, ref _turnSmoothVelocity, _rotationSmoothTime);
@@ -134,9 +140,9 @@ namespace WormsGame.Movement
 
             Vector3 moveDirection = Quaternion.Euler(0f, _targetAngle, 0f) * Vector3.forward;
             Vector3 verticalVelocityVector = new Vector3(0.0f, _verticalVelocity, 0.0f);
-
+            
             _characterController.Move(moveDirection.normalized * (horizontalSpeed * Time.deltaTime) +
-                                      verticalVelocityVector * Time.deltaTime);
+                                          verticalVelocityVector * Time.deltaTime);
             
             if (_animator != null )
                 _animator.SetBool("isMoving", horizontalSpeed > 0.1f);
@@ -166,14 +172,12 @@ namespace WormsGame.Movement
         void Jump()
         {
             if (_jumpCooldownTimer >= 0.0f) _jumpCooldownTimer -= Time.deltaTime;
-
             if (!_inputHandler.JumpInput) return;
-
+            if (_inputHandler.IsAiming)return;
             if (!IsGrounded() || _jumpCooldownTimer >= 0.0f) return;
 
             _verticalVelocity = Mathf.Sqrt(_gravity * _heightToReach * -2f);
             _jumpCooldownTimer = _jumpCooldown;
-            print("jump");
         }
 
 
