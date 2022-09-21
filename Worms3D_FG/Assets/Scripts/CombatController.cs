@@ -20,6 +20,8 @@ namespace WormsGame.Combat
         InputHandler _inputHandler;
         bool _hasShot;
         bool _weaponIsChargable;
+        Vector3 direction;
+
         void Awake()
         {
             _inputHandler = GetComponent<InputHandler>();
@@ -39,7 +41,6 @@ namespace WormsGame.Combat
             
         //}
 
-        Vector3 direction;
         void Update()
         {
             if (_currentWeapon ==null) return;

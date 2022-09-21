@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using WormsGame.Cameras;
-using WormsGame.Inputs;
 using WormsGame.Movement;
 
 //TO DO What happens if a certain team does not exist and you try to activate 0th plater? look into activateTeamMember function

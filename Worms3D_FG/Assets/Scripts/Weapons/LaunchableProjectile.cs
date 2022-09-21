@@ -5,7 +5,6 @@ using UnityEngine;
 using WormsGame.Movement;
 using WormsGame.Inventory;
 
-
 namespace WormsGame.Combat
 {
     public class LaunchableProjectile : Projectile

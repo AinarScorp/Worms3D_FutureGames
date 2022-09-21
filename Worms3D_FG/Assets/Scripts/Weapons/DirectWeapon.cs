@@ -1,8 +1,6 @@
 using UnityEngine;
 using WormsGame.Inventory;
 
-
-
 namespace WormsGame.Combat
 {
     [CreateAssetMenu(fileName = "Direct Weapon", menuName = "Weapons/Make New Direct", order = 0)]

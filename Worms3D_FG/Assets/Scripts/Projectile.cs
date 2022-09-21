@@ -8,7 +8,7 @@ using WormsGame.Inventory;
 namespace WormsGame.Combat
 {
     [RequireComponent(typeof(Rigidbody))]
-    public class Projectile : MonoBehaviour
+    public abstract class Projectile : MonoBehaviour
     {
         [SerializeField] protected LayerMask _collisionMask;
         [SerializeField] protected float _gravity = -10;
