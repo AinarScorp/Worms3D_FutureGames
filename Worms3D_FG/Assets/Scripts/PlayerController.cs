@@ -7,6 +7,7 @@ using WormsGame.Inputs;
 namespace WormsGame.Movement
 {
     [RequireComponent(typeof(InputHandler))]
+    [RequireComponent(typeof(CustomGravity))]
     public class PlayerController : MonoBehaviour
     {
         #region Exposed variables
@@ -36,12 +37,12 @@ namespace WormsGame.Movement
 
 
         [Header("Physics")] //
-        [SerializeField] float _gravity = -15;
-        [SerializeField] float _heavierGravity = -30;
+        //[SerializeField] float _gravity = -15;
+        //[SerializeField] float _heavierGravity = -30;
 
-        [SerializeField] float _gravityMulitplier = 2.0f;
-        [SerializeField] float groundedRadius = 0.5f;
-        [SerializeField] LayerMask _groundLayers;
+        //[SerializeField] float _gravityMulitplier = 2.0f;
+        // [SerializeField] float groundedRadius = 0.5f;
+        // [SerializeField] LayerMask _groundLayers;
 
         [Header("Animations")] 
         [SerializeField] Animator _animator;
@@ -57,7 +58,8 @@ namespace WormsGame.Movement
         float _jumpCooldownTimer;
 
         //Physics
-        float _verticalVelocity;
+        CustomGravity _customGravity;
+        //float _verticalVelocity;
 
         // Camera Cinemachine
         Transform _cameraMain;
@@ -86,6 +88,7 @@ namespace WormsGame.Movement
         {
             _characterController = GetComponent<CharacterController>();
             _inputHandler = GetComponent<InputHandler>();
+            _customGravity = GetComponent<CustomGravity>();
             _cameraMain = Camera.main.transform;
             _inputHandler.SubscribeToActivation(() => this.enabled = true, true);
             _inputHandler.SubscribeToActivation(() => this.enabled = false, false);
@@ -106,7 +109,7 @@ namespace WormsGame.Movement
                 Jump();
                 
             }
-            Gravity();
+            //Gravity();
         }
 
         void LateUpdate()
@@ -122,7 +125,7 @@ namespace WormsGame.Movement
         void HandleMovement()
         {
             float horizontalSpeed = _inputHandler.MovementInputs == Vector2.zero || _inputHandler.IsAiming ? 0.0f : _moveSpeed;
-            if (!IsGrounded())
+            if (!_customGravity.IsGrounded())
             {
                 horizontalSpeed *= _windMultilpier;
             }
@@ -139,11 +142,11 @@ namespace WormsGame.Movement
             }
 
             Vector3 moveDirection = Quaternion.Euler(0f, _targetAngle, 0f) * Vector3.forward;
-            Vector3 verticalVelocityVector = new Vector3(0.0f, _verticalVelocity, 0.0f);
+            //Vector3 verticalVelocityVector = new Vector3(0.0f, _verticalVelocity, 0.0f);
             
-            _characterController.Move(moveDirection.normalized * (horizontalSpeed * Time.deltaTime) +
-                                          verticalVelocityVector * Time.deltaTime);
+            //_characterController.Move(moveDirection.normalized * (horizontalSpeed * Time.deltaTime) +verticalVelocityVector * Time.deltaTime);
             
+            _characterController.Move(moveDirection.normalized * (horizontalSpeed * Time.deltaTime));
             if (_animator != null )
                 _animator.SetBool("isMoving", horizontalSpeed > 0.1f);
 
@@ -174,45 +177,45 @@ namespace WormsGame.Movement
             if (_jumpCooldownTimer >= 0.0f) _jumpCooldownTimer -= Time.deltaTime;
             if (!_inputHandler.JumpInput) return;
             if (_inputHandler.IsAiming)return;
-            if (!IsGrounded() || _jumpCooldownTimer >= 0.0f) return;
-
-            _verticalVelocity = Mathf.Sqrt(_gravity * _heightToReach * -2f);
+            if (!_customGravity.IsGrounded() || _jumpCooldownTimer >= 0.0f) return;
+            _customGravity.ApplyJumpVelocity(_heightToReach);
+            //_verticalVelocity = Mathf.Sqrt(_gravity * _heightToReach * -2f);
             _jumpCooldownTimer = _jumpCooldown;
         }
 
 
-        void Gravity()
-        {
-            float pushDownMultiplier = _verticalVelocity < 0.0f ? _gravityMulitplier : 1;
-            float gravityToUse = _gravity;
-            if (_verticalVelocity < 0.0f)
-            {
-                if (IsGrounded())
-                {
-                    _verticalVelocity = -2.0f;
-                    pushDownMultiplier = 1f;
-                }
-
-                gravityToUse *= pushDownMultiplier;
-            }
-            // if (IsGrounded() && _verticalVelocity < 0.0f)
-            // {
-            //     _verticalVelocity = -2.0f;
-            //     pushDownMultiplier = 1f;
-            // }
-            //
-            // if (_verticalVelocity < 0.0f)
-            // {
-            //     gravityToUse *= pushDownMultiplier;
-            // }
-            else if (!IsGrounded() && !_inputHandler.JumpInput)
-            {
-                gravityToUse = _heavierGravity;
-            }
-
-
-            _verticalVelocity += gravityToUse * Time.deltaTime;
-        }
+        // void Gravity()
+        // {
+        //     float pushDownMultiplier = _verticalVelocity < 0.0f ? _gravityMulitplier : 1;
+        //     float gravityToUse = _gravity;
+        //     if (_verticalVelocity < 0.0f)
+        //     {
+        //         if (IsGrounded())
+        //         {
+        //             _verticalVelocity = -2.0f;
+        //             pushDownMultiplier = 1f;
+        //         }
+        //
+        //         gravityToUse *= pushDownMultiplier;
+        //     }
+        //     // if (IsGrounded() && _verticalVelocity < 0.0f)
+        //     // {
+        //     //     _verticalVelocity = -2.0f;
+        //     //     pushDownMultiplier = 1f;
+        //     // }
+        //     //
+        //     // if (_verticalVelocity < 0.0f)
+        //     // {
+        //     //     gravityToUse *= pushDownMultiplier;
+        //     // }
+        //     else if (!IsGrounded() && !_inputHandler.JumpInput)
+        //     {
+        //         gravityToUse = _heavierGravity;
+        //     }
+        //
+        //
+        //     _verticalVelocity += gravityToUse * Time.deltaTime;
+        // }
 
         #endregion
 
@@ -229,21 +232,13 @@ namespace WormsGame.Movement
 
         public void SetRotateOnMove(bool value) => rotateOnMove = value;
 
-        void OnDrawGizmosSelected()
-        {
-            Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere(transform.position, groundedRadius);
-            Vector3 posY = new Vector3(0.0f, _heightToReach, 0.0f);
-            Gizmos.color = Color.green;
-
-            Gizmos.DrawLine(transform.position, transform.position + posY);
-        }
 
 
-        bool IsGrounded()
-        {
-            return Physics.CheckSphere(transform.position, groundedRadius, _groundLayers);
-        }
+
+        // bool IsGrounded()
+        // {
+        //     return Physics.CheckSphere(transform.position, groundedRadius, _groundLayers);
+        // }
 
 
         private float ClampAngle(float lfAngle, float lfMin, float lfMax)

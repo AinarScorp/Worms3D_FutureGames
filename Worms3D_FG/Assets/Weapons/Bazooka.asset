@@ -16,6 +16,6 @@ MonoBehaviour:
     type: 3}
   projectilePrefab: {fileID: 1379397458754860071, guid: 205f5cd6e0e00b14bbba075c5170edf2,
     type: 3}
-  _maxDamage: 1
+  _maxDamage: 10
   _minDamage: 1
   _obstuctionPenalty: 3

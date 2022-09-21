@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _weaponPrefab: {fileID: 964709718343122173, guid: fe05e4dfdf071e446b5334f99da3642b,
     type: 3}
-  _damage: 6
+  _damage: 5
   _targetLayerMask:
     serializedVersion: 2
     m_Bits: 65

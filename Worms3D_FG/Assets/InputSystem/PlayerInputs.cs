@@ -224,6 +224,34 @@ namespace WormsGame.Inputs
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Inventory"",
+            ""id"": ""bbed5ca1-e230-4f0f-9c05-e098469e8332"",
+            ""actions"": [
+                {
+                    ""name"": ""OpenInventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""c6284e3c-1afc-422b-a2d6-aecd4bfd4c0c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""6e681623-379e-4353-89ca-233950e0f0ad"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenInventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -239,6 +267,9 @@ namespace WormsGame.Inputs
             m_TurnHandler = asset.FindActionMap("TurnHandler", throwIfNotFound: true);
             m_TurnHandler_NextUnit = m_TurnHandler.FindAction("NextUnit", throwIfNotFound: true);
             m_TurnHandler_PrevUnit = m_TurnHandler.FindAction("PrevUnit", throwIfNotFound: true);
+            // Inventory
+            m_Inventory = asset.FindActionMap("Inventory", throwIfNotFound: true);
+            m_Inventory_OpenInventory = m_Inventory.FindAction("OpenInventory", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -400,6 +431,39 @@ namespace WormsGame.Inputs
             }
         }
         public TurnHandlerActions @TurnHandler => new TurnHandlerActions(this);
+
+        // Inventory
+        private readonly InputActionMap m_Inventory;
+        private IInventoryActions m_InventoryActionsCallbackInterface;
+        private readonly InputAction m_Inventory_OpenInventory;
+        public struct InventoryActions
+        {
+            private @PlayerInputs m_Wrapper;
+            public InventoryActions(@PlayerInputs wrapper) { m_Wrapper = wrapper; }
+            public InputAction @OpenInventory => m_Wrapper.m_Inventory_OpenInventory;
+            public InputActionMap Get() { return m_Wrapper.m_Inventory; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
+            public bool enabled => Get().enabled;
+            public static implicit operator InputActionMap(InventoryActions set) { return set.Get(); }
+            public void SetCallbacks(IInventoryActions instance)
+            {
+                if (m_Wrapper.m_InventoryActionsCallbackInterface != null)
+                {
+                    @OpenInventory.started -= m_Wrapper.m_InventoryActionsCallbackInterface.OnOpenInventory;
+                    @OpenInventory.performed -= m_Wrapper.m_InventoryActionsCallbackInterface.OnOpenInventory;
+                    @OpenInventory.canceled -= m_Wrapper.m_InventoryActionsCallbackInterface.OnOpenInventory;
+                }
+                m_Wrapper.m_InventoryActionsCallbackInterface = instance;
+                if (instance != null)
+                {
+                    @OpenInventory.started += instance.OnOpenInventory;
+                    @OpenInventory.performed += instance.OnOpenInventory;
+                    @OpenInventory.canceled += instance.OnOpenInventory;
+                }
+            }
+        }
+        public InventoryActions @Inventory => new InventoryActions(this);
         public interface IMainActions
         {
             void OnMove(InputAction.CallbackContext context);
@@ -412,6 +476,10 @@ namespace WormsGame.Inputs
         {
             void OnNextUnit(InputAction.CallbackContext context);
             void OnPrevUnit(InputAction.CallbackContext context);
+        }
+        public interface IInventoryActions
+        {
+            void OnOpenInventory(InputAction.CallbackContext context);
         }
     }
 }

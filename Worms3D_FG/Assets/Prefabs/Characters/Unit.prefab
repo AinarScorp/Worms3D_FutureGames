@@ -274,6 +274,7 @@ GameObject:
   - component: {fileID: 7107733721671389150}
   - component: {fileID: 6538767462623193126}
   - component: {fileID: 4669351187706920028}
+  - component: {fileID: 7626588313335157975}
   m_Layer: 6
   m_Name: Unit
   m_TagString: Player
@@ -352,13 +353,6 @@ MonoBehaviour:
   _heightToReach: 5
   _windMultilpier: 0.5
   _jumpCooldown: 0.5
-  _gravity: -15
-  _heavierGravity: -30
-  _gravityMulitplier: 2
-  groundedRadius: 0.5
-  _groundLayers:
-    serializedVersion: 2
-    m_Bits: 1
   _animator: {fileID: 0}
 --- !u!114 &6538767462623193126
 MonoBehaviour:
@@ -372,7 +366,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab740fd4e51d0b2468a84b3ce03eeeca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _currentWeapon: {fileID: 11400000, guid: 961a83c562e9ab744b4fda91764ee065, type: 2}
+  _currentWeapon: {fileID: 0}
   _projectileSpawnPoint: {fileID: 7106129188537164370}
   chargeSpeed: 5
   _maxLaunchForce: 20
@@ -392,3 +386,22 @@ MonoBehaviour:
   _alliance: 0
   _handTransform: {fileID: 5480354756336135964}
   _startingHealth: 10
+--- !u!114 &7626588313335157975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7107733721671389091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 024ae6712fa2c1441bc54e1bf2677cd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gravity: -15
+  _heavierGravity: -30
+  _gravityMultiplier: 2
+  groundedRadius: 0.5
+  _groundLayers:
+    serializedVersion: 2
+    m_Bits: 1

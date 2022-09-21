@@ -2,18 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace WormsGame.Combat
+namespace WormsGame.Inventory
 {    
     public abstract class  Weapon : ScriptableObject
     {
         [SerializeField] GameObject _weaponPrefab;
-        
+        Transform _handTransform;
         const string WEAPON_NAME = "Weapon";
 
         
         public void SpawnWeapon(Transform handTransform)
         {
-            DestroyOldWeapon(handTransform);
+            _handTransform = handTransform;
+
+            DestroyOldWeapon();
             if (_weaponPrefab !=null)
             {
                 GameObject weapon = Instantiate(_weaponPrefab, handTransform);
@@ -21,9 +23,9 @@ namespace WormsGame.Combat
             }
         }
 
-        void DestroyOldWeapon(Transform handTransform)
+        void DestroyOldWeapon()
         {
-            Transform oldWeapon = handTransform.Find(WEAPON_NAME);
+            Transform oldWeapon = _handTransform.Find(WEAPON_NAME);
             if (oldWeapon == null)
             {
                 return;
@@ -36,11 +38,14 @@ namespace WormsGame.Combat
 
         public virtual void Fire(Vector3 spawnPos, float launchForce, Vector3 direction)
         {
+            DestroyOldWeapon();
             Debug.Log(this.name + " with the name " + _weaponPrefab.name + " is Shooting");
         }
 
         public virtual void Fire(Vector3 shootFromPos,Vector3 direction)
         {
+            DestroyOldWeapon();
+
             Debug.Log(this.name + " with the name " + _weaponPrefab.name + " has shot directly");
 
         }

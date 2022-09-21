@@ -153,6 +153,10 @@ namespace WormsGame.Core
         {
             if (ctx.performed)
             {
+                //what if he died???
+                if (!_currentUnit.InputHandler.enabled)
+                    return;
+
                 int index = GetUnitIndex(_currentUnitIndex + 1);
                 ActivateTeamMember(index);
             }
@@ -161,6 +165,8 @@ namespace WormsGame.Core
         {
             if (ctx.performed)
             {
+                if (!_currentUnit.InputHandler.enabled)
+                    return;
                 int index = GetUnitIndex(_currentUnitIndex - 1);
                 ActivateTeamMember(index);
 

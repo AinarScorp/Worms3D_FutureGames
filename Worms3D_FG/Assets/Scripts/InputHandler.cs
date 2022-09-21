@@ -59,8 +59,19 @@ namespace WormsGame.Inputs
 
             _playerInputs.Main.FirstPersonCamera.performed += ctx => _isAiming = ctx.ReadValue<float>() > 0.1f;
             _playerInputs.Main.Shoot.performed += ctx => _shootInput = ctx.ReadValue<float>() > 0.1f;
+            
+            SubscribeResetBooleans();
         }
 
+        void SubscribeResetBooleans()
+        {
+            SubscribeToActivation(() =>
+            {
+                _jumpInput = false;
+                _isAiming = false;
+                _shootInput = false;
+            },false);
+        }
         public void SubscribeToActivation(Action actionToSubscribe, bool toEnabled)
         {
             if (toEnabled)

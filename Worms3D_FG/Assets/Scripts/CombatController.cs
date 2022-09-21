@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using WormsGame.Inputs;
-using WormsGame.Movement;
+using WormsGame.Inventory;
 
 namespace WormsGame.Combat
 {
@@ -42,6 +42,7 @@ namespace WormsGame.Combat
         Vector3 direction;
         void Update()
         {
+            if (_currentWeapon ==null) return;
 
             if (!_hasShot && _inputHandler.ShootInput)
             {
@@ -58,6 +59,7 @@ namespace WormsGame.Combat
             {
                 _currentWeapon.Fire(_projectileSpawnPoint.position,direction);
                 this.enabled = false;
+                return;
             }
 
  
@@ -79,6 +81,7 @@ namespace WormsGame.Combat
         }
         public void AssignNewWeapon(Weapon newWeapon)
         {
+            this.enabled = true;
             _currentWeapon = newWeapon;
         }
 

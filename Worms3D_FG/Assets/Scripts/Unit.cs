@@ -19,6 +19,7 @@ public class Unit : MonoBehaviour
     public TeamAlliance Alliance => _alliance;
 
     public Transform HandTransform => _handTransform;
+    public InputHandler InputHandler => _inputHandler;
 
     void Awake()
     {
@@ -46,7 +47,7 @@ public class Unit : MonoBehaviour
 
     void DestroyMe()
     {
-        Destroy(this.gameObject);
+        this.gameObject.SetActive(false);
     }
 
 

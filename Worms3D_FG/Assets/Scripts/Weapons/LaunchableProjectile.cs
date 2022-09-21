@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using WormsGame.Movement;
+using WormsGame.Inventory;
+
 
 namespace WormsGame.Combat
 {
