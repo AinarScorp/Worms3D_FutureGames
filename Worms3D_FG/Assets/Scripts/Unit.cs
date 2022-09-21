@@ -8,6 +8,7 @@ using WormsGame.Inputs;
 public class Unit : MonoBehaviour
 {
     [SerializeField] TeamAlliance _alliance;
+    [SerializeField] Transform _handTransform;
 
     [SerializeField] int _startingHealth = 10;
 
@@ -17,6 +18,7 @@ public class Unit : MonoBehaviour
 
     public TeamAlliance Alliance => _alliance;
 
+    public Transform HandTransform => _handTransform;
 
     void Awake()
     {

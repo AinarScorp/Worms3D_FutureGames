@@ -39,6 +39,7 @@ namespace WormsGame.Inputs
         {
             _playerInputs.Enable();
             InputsEnabled();
+            Cursor.visible = false;
         }
 
         void OnDisable()

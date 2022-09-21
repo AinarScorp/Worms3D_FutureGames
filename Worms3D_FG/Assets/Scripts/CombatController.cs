@@ -12,7 +12,7 @@ namespace WormsGame.Combat
     {
         [SerializeField] Weapon _currentWeapon;
         [SerializeField] Transform _projectileSpawnPoint; // use frist person camera
-        [SerializeField] Transform _handTransform;
+        //[SerializeField] Transform _handTransform;
         [SerializeField] float chargeSpeed = 5;
         [SerializeField] float _maxLaunchForce = 20.0f;
         
@@ -33,11 +33,11 @@ namespace WormsGame.Combat
             _hasShot = false;
         }
 
-        void Start()
-        {
-            _currentWeapon.SpawnWeapon(_handTransform);
+        //void Start()
+        //{
+        //    _currentWeapon.SpawnWeapon(_handTransform);
             
-        }
+        //}
 
         Vector3 direction;
         void Update()
@@ -56,7 +56,7 @@ namespace WormsGame.Combat
 
             if (!_weaponIsChargable)
             {
-                _currentWeapon.Fire(direction);
+                _currentWeapon.Fire(_projectileSpawnPoint.position,direction);
                 this.enabled = false;
             }
 
@@ -77,7 +77,10 @@ namespace WormsGame.Combat
             }
 
         }
-
+        public void AssignNewWeapon(Weapon newWeapon)
+        {
+            _currentWeapon = newWeapon;
+        }
 
     }
     

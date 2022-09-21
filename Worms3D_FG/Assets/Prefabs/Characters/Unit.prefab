@@ -374,7 +374,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _currentWeapon: {fileID: 11400000, guid: 961a83c562e9ab744b4fda91764ee065, type: 2}
   _projectileSpawnPoint: {fileID: 7106129188537164370}
-  _handTransform: {fileID: 5480354756336135964}
+  chargeSpeed: 5
+  _maxLaunchForce: 20
   _launchForce: 20
 --- !u!114 &4669351187706920028
 MonoBehaviour:
@@ -389,4 +390,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _alliance: 0
+  _handTransform: {fileID: 5480354756336135964}
   _startingHealth: 10

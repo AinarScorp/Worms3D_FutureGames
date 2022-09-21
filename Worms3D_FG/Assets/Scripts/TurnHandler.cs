@@ -21,6 +21,9 @@ namespace WormsGame.Core
         TeamAlliance _teamsTurn; // whose turn it is, think of a better name
         Unit _currentUnit;
         int _currentUnitIndex;
+
+        public Unit CurrentUnit => _currentUnit;
+
         void Awake()
         {
             _cameraManager = FindObjectOfType<CameraManager>();
