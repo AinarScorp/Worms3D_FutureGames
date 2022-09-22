@@ -20,6 +20,9 @@ namespace WormsGame.Inventory
 
         public void ChooseNewWeapon(Weapon newWeapon)
         {
+            if (_turnHandler.TurnFinished)
+                return;
+            
             newWeapon.SpawnWeapon(_turnHandler.CurrentUnit.HandTransform);
             _turnHandler.CurrentUnit.GetComponent<CombatController>().AssignNewWeapon(newWeapon);
             ToggleInventoryUI();
@@ -29,6 +32,9 @@ namespace WormsGame.Inventory
         {
             if (ctx.performed)
             {
+                if (_turnHandler.TurnFinished)
+                    return;
+
                 ToggleInventoryUI();
             }
         }

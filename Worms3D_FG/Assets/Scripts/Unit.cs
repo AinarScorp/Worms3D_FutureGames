@@ -2,59 +2,68 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using WormsGame.Core;
 using WormsGame.Inputs;
 
-public class Unit : MonoBehaviour
+namespace WormsGame.Core
 {
-    [SerializeField] TeamAlliance _alliance;
-    [SerializeField] Transform _handTransform;
-
-    [SerializeField] int _startingHealth = 10;
-
-    public event Action<Unit> Dying;
-    InputHandler _inputHandler;
-    int _currentHealth;
-
-    public TeamAlliance Alliance => _alliance;
-
-    public Transform HandTransform => _handTransform;
-    public InputHandler InputHandler => _inputHandler;
-
-    void Awake()
+    public class Unit : MonoBehaviour
     {
-        _inputHandler = GetComponent<InputHandler>();
-    }
+        [SerializeField] TeamAlliance _alliance;
+        [SerializeField] Transform _handTransform;
 
-    void Start()
-    {
-        _currentHealth = _startingHealth;
-    }
+        [SerializeField] int _startingHealth = 10;
+        bool _unitIsAcive;
+        public event Action<Unit> Dying;
+        InputHandler _inputHandler;
+        int _currentHealth;
 
-    public void ModifyHealth(int amount)
-    {
-        _currentHealth += amount;
-        if (_currentHealth<=0)
+        public TeamAlliance Alliance => _alliance;
+
+        public Transform HandTransform => _handTransform;
+        public InputHandler InputHandler => _inputHandler;
+
+        public bool UnitIsAcive => _unitIsAcive;
+
+        void Awake()
         {
-            if (Dying != null)
-            {
-                Dying(this);
-            }
-            
-            DestroyMe();
+            _inputHandler = GetComponent<InputHandler>();
+            _inputHandler.SubscribeToActivation(() => _unitIsAcive = true,true);
+            _inputHandler.SubscribeToActivation(() => _unitIsAcive = false,false);
+
         }
-    }
 
-    void DestroyMe()
-    {
-        this.gameObject.SetActive(false);
-    }
+        void Start()
+        {
+            _currentHealth = _startingHealth;
+        }
+
+        public void ModifyHealth(int amount)
+        {
+            _currentHealth += amount;
+            if (_currentHealth<=0)
+            {
+                if (Dying != null)
+                {
+                    Dying(this);
+                }
+                
+                DestroyMe();
+            }
+        }
+
+        void DestroyMe()
+        {
+            this.gameObject.SetActive(false);
+        }
 
 
 
-    public void ToggleUnit(bool activate)
-    {
-        _inputHandler.enabled = activate;
+        public void ToggleUnit(bool activate)
+        {
+            _inputHandler.enabled = activate;
+            
+        }
+        
     }
     
 }

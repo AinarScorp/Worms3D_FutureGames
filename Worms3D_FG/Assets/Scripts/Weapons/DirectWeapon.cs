@@ -1,5 +1,5 @@
 using UnityEngine;
-using WormsGame.Inventory;
+using WormsGame.Core;
 
 namespace WormsGame.Combat
 {

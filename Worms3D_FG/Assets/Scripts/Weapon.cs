@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace WormsGame.Inventory
+namespace WormsGame.Combat
 {    
     public abstract class  Weapon : ScriptableObject
     {
@@ -45,7 +45,6 @@ namespace WormsGame.Inventory
         public virtual void Fire(Vector3 shootFromPos,Vector3 direction)
         {
             DestroyOldWeapon();
-
             Debug.Log(this.name + " with the name " + _weaponPrefab.name + " has shot directly");
 
         }

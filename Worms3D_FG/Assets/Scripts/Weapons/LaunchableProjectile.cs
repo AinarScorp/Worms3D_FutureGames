@@ -1,9 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using WormsGame.Movement;
-using WormsGame.Inventory;
+using WormsGame.Core;
+
 
 namespace WormsGame.Combat
 {
@@ -39,8 +36,8 @@ namespace WormsGame.Combat
         {
             if ((_collisionMask.value & (1 << collision.collider.transform.gameObject.layer)) > 0)
             {
-                PlayerController currentPlayer = collision.collider.GetComponent<PlayerController>();
-                if (currentPlayer !=null && currentPlayer.enabled == true) return;
+                Unit currentUnit = collision.collider.GetComponent<Unit>();
+                if (currentUnit !=null && currentUnit.UnitIsAcive) return;
                 _exlosionPoint = transform.position;
                 Explode();
                 //Debug.Log("Hit with Layermask");

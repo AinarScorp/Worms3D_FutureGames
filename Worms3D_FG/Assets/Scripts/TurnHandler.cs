@@ -1,27 +1,30 @@
+using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.InputSystem;
 using WormsGame.Cameras;
 using WormsGame.Movement;
+using Random = UnityEngine.Random;
 
 //TO DO What happens if a certain team does not exist and you try to activate 0th plater? look into activateTeamMember function
 namespace WormsGame.Core
 {
     public class TurnHandler : MonoBehaviour
     {
-        [SerializeField] TeamAlliance _startingTeam;
-        List<Unit> _teamSlimes = new List<Unit>();
-        List<Unit> _teamRabbits = new List<Unit>();
-        List<Unit> _teamBats = new List<Unit>();
-        List<Unit> _teamGhosts = new List<Unit>();
-        CameraManager _cameraManager;
-        TeamAlliance _teamsTurn; // whose turn it is, think of a better name
-        Unit _currentUnit;
         int _currentUnitIndex;
-
+        bool _turnFinished;
+        
+        CameraManager _cameraManager;
+        TeamInfo _currentTeamTurn;
+        Unit _currentUnit;
+        public event Action TeamRemoved;
+        
+        List<TeamInfo> _allTeams = new List<TeamInfo>();
         public Unit CurrentUnit => _currentUnit;
+        public bool TurnFinished => _turnFinished;
+
+        public List<TeamInfo> AllTeams => _allTeams;
 
         void Awake()
         {
@@ -30,12 +33,10 @@ namespace WormsGame.Core
 
         void Start()
         {
-            _teamsTurn = _startingTeam;
             FindAllUnits();
-            //activate first team member
-            ActivateTeamMember(0);
+            ActivateRandomTeam();
         }
-
+        
         void FindAllUnits()
         {
             Unit[] allUnits = FindObjectsOfType<Unit>();
@@ -51,99 +52,134 @@ namespace WormsGame.Core
                 unit.Dying += RemoveUponDeath;
             }
         }
-
-        void RemoveUponDeath(Unit unit)
+        void ActivateRandomTeam()
         {
-            TeamAlliance alliance = unit.Alliance;
-            switch (alliance)
+            //activate first team member
+            if (_allTeams.Count <= 0)
             {
-                case TeamAlliance.Slimes:
-                    _teamSlimes.Remove(unit);
-                    break;
-                case TeamAlliance.Rabbits:
-                    _teamRabbits.Remove(unit);
-                    break;
-                case TeamAlliance.Bats:
-                    _teamBats.Remove(unit);
-                    break;
-                case TeamAlliance.Ghosts:
-                    _teamGhosts.Remove(unit);
-                    break;
-                default: 
-                    Debug.Log("Allinace is not assigned");
-                    break;
+                Debug.LogError("No units on the map");
+                return;
             }
+            
+            int rnd = Random.Range(0, _allTeams.Count);
+
+            _currentTeamTurn = _allTeams[rnd];
+            ActivateTeamMember(0);
         }
-        void AddToTeamsList(Unit unit)
-        {
-            TeamAlliance alliance = unit.Alliance;
-            switch (alliance)
-            {
-                case TeamAlliance.Slimes:
-                    _teamSlimes.Add(unit);
-                    break;
-                case TeamAlliance.Rabbits:
-                    _teamRabbits.Add(unit);
-                    break;
-                case TeamAlliance.Bats:
-                    _teamBats.Add(unit);
-                    break;
-                case TeamAlliance.Ghosts:
-                    _teamGhosts.Add(unit);
-                    break;
-                default: 
-                    Debug.Log("Allinace is not assigned");
-                    break;
-            }
-        }
-
-        void DeactivateUnit(Unit unit) => unit.ToggleUnit(false);
-
-        List<Unit> GetTeamListFromTeamsTurn(TeamAlliance turnOwner)
-        {
-            switch (turnOwner)
-            {
-                case TeamAlliance.Slimes:
-                    return _teamSlimes;
-                case TeamAlliance.Rabbits:
-                    return _teamRabbits;
-                case TeamAlliance.Bats:
-                    return _teamBats;
-                case TeamAlliance.Ghosts:
-                    return _teamGhosts;
-            }
-            Debug.Log("should never happen, check this");
-            return null;
-        }
-
-        
-
         void ActivateTeamMember(int unitToActivate)
         {
             if (_currentUnit != null)
                 DeactivateUnit(_currentUnit);
             
-            Unit unit = GetTeamListFromTeamsTurn(_teamsTurn)[unitToActivate];
-            unit.ToggleUnit(true);
+            //Unit unit = GetTeamListFromTeamsTurn(_currentTeamTurn)[unitToActivate];
+            if (GetUnitList(_currentTeamTurn).Count <=0)
+                return;
+            
+            Unit unit = GetUnitList(_currentTeamTurn)[unitToActivate];
+
             _currentUnit = unit;
-            _currentUnitIndex = GetTeamListFromTeamsTurn(_teamsTurn).IndexOf(unit);
+            //_currentUnitIndex = GetTeamListFromTeamsTurn(_currentTeamTurn).IndexOf(unit);
+            _currentUnitIndex = GetUnitList(_currentTeamTurn).IndexOf(unit);
+            unit.ToggleUnit(true);
+
             PlayerController controller = unit.GetComponent<PlayerController>();
             _cameraManager.FocusOnCurrentPlayer(controller);
         }
 
-        int GetUnitIndex(int index)
+        void AddToTeamsList(Unit unit)
         {
-            int countInList = GetTeamListFromTeamsTurn(_teamsTurn).Count;
-            if (index <0)
-                return countInList - 1;
+            FindUnitsTeam(unit, out var belongingTeam, out var teamExists);
 
-            if (index >=countInList )
-                return 0;
-
-            return index;
-
+            if (!teamExists)
+            {
+                TeamInfo newTeam = new TeamInfo(unit.Alliance);
+                _allTeams.Add(newTeam);
+                belongingTeam = newTeam;
+            }
+            belongingTeam.AddUnit(unit);
+            
+        }
+        
+        void RemoveUponDeath(Unit unit)
+        {
+            FindUnitsTeam(unit, out var belongingTeam, out var teamExists);
+        
+            if (!teamExists)
+                Debug.LogError("sth is wrong");
+            
+            belongingTeam.RemoveUnit(unit);
+            
+            RemoveTeam(belongingTeam);
+            
         }
 
+        void RemoveTeam(TeamInfo belongingTeam)
+        {
+            if (belongingTeam.AvailableUnits.Count <= 0)
+                _allTeams.Remove(belongingTeam);
+            
+            TeamRemoved?.Invoke();
+        }
+
+        void FindUnitsTeam(Unit unit, out TeamInfo belongingTeam, out bool teamExists)
+        {
+            TeamAlliance alliance = unit.Alliance;
+            belongingTeam = null;
+            teamExists = false;
+            foreach (TeamInfo team in _allTeams)
+            {
+                if (team.TeamAlliance == alliance)
+                {
+                    belongingTeam = team;
+                    teamExists = true;
+                    break;
+                }
+            }
+        }
+
+        void DeactivateUnit(Unit unit) => unit.ToggleUnit(false);
+        List<Unit> GetUnitList(TeamInfo teamInfo) => teamInfo.AvailableUnits;
+
+
+        int GetUnitIndex(int index)
+        {
+            int countInList = GetUnitList(_currentTeamTurn).Count;
+            
+            if (index <0) return countInList - 1;
+            if (index >=countInList ) return 0;
+            
+            return index;
+        }
+
+        public IEnumerator FinishTurn()
+        {
+            _turnFinished = true;
+            yield return new WaitForSeconds(5);
+            
+            int currentTeamIndex = -1;
+            foreach (var team in _allTeams)
+            {
+                if (team == _currentTeamTurn)
+                {
+                    currentTeamIndex = _allTeams.IndexOf(team);
+                    break;
+                }
+            }
+
+            if (currentTeamIndex <0)
+                Debug.LogWarning("Please report");
+            
+
+            currentTeamIndex++;
+            if (currentTeamIndex >=_allTeams.Count)
+                currentTeamIndex = 0;
+            
+            _currentTeamTurn = _allTeams[currentTeamIndex];
+            ActivateTeamMember(0);
+            _turnFinished = false;
+        }
+        
+        
         #region InputSystem
 
         
@@ -177,4 +213,5 @@ namespace WormsGame.Core
         
         
     }
+    
 }

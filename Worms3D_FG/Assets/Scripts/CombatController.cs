@@ -2,8 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using WormsGame.Core;
 using WormsGame.Inputs;
-using WormsGame.Inventory;
 
 namespace WormsGame.Combat
 {
@@ -16,7 +16,9 @@ namespace WormsGame.Combat
         [SerializeField] float chargeSpeed = 5;
         [SerializeField] float _maxLaunchForce = 20.0f;
         
-        [SerializeField] float _launchForce = 20.0f;
+        [SerializeField] float _minLaunchForce = 5.0f;
+
+        float _launchForce;
         InputHandler _inputHandler;
         bool _hasShot;
         bool _weaponIsChargable;
@@ -49,7 +51,8 @@ namespace WormsGame.Combat
             {
                 _hasShot = true;
                 _weaponIsChargable = _currentWeapon is LaunchableWeapon;
-                _launchForce = 0;
+                
+                _launchForce = _minLaunchForce;
                 direction = _projectileSpawnPoint.rotation * Vector3.forward;
                 //GetComponent<PlayerController>().enabled = false;
                 //_currentWeapon.Fire(_projectileSpawnPoint.position,  _launchForce,direction);
@@ -58,7 +61,10 @@ namespace WormsGame.Combat
 
             if (!_weaponIsChargable)
             {
+                StartCoroutine(FindObjectOfType<TurnHandler>().FinishTurn());
+
                 _currentWeapon.Fire(_projectileSpawnPoint.position,direction);
+                _currentWeapon = null;
                 this.enabled = false;
                 return;
             }
@@ -73,8 +79,11 @@ namespace WormsGame.Combat
                 print(_launchForce);
             }
             else
-            {
+            {                
+                StartCoroutine(FindObjectOfType<TurnHandler>().FinishTurn());
                 _currentWeapon.Fire(_projectileSpawnPoint.position,  _launchForce,direction);
+                _currentWeapon = null;
+
                 this.enabled = false;
 
             }

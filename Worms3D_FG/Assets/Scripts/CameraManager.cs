@@ -18,6 +18,12 @@ namespace WormsGame.Cameras
 
         void ControlPerspective()
         {
+            if (currentUnit == null)
+            {
+                this.gameObject.SetActive(false);
+                return;
+            }
+            
             if (currentUnit.InputHandler.IsAiming && !firstPersonCamera.enabled)
             {
                 ChangeCamera(true);

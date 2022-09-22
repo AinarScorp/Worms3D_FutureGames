@@ -615,7 +615,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 11400000, guid: 2766db34c97ef6c489ccb95dc39b2e2b,
             type: 2}
-          m_ObjectArgumentAssemblyTypeName: WormsGame.Inventory.Weapon, Assembly-CSharp
+          m_ObjectArgumentAssemblyTypeName: WormsGame.Combat.Weapon, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -706,6 +706,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Unit_Ghost
+      objectReference: {fileID: 0}
+    - target: {fileID: 4277424550699018757, guid: b8b6216c9fcec7741a1a2310fe45ad69,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4277424550699018875, guid: b8b6216c9fcec7741a1a2310fe45ad69,
         type: 3}
@@ -1224,7 +1229,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &602222981
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1464,6 +1469,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Unit_Slime (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 7688892592591424629, guid: f766d28d83c29e84e994152788211ad6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f766d28d83c29e84e994152788211ad6, type: 3}
 --- !u!4 &715745230 stripped
@@ -1671,6 +1681,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Unit_Rabbit (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 4012019656503262551, guid: 3db90b0023f622f4683adc109b880f84,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3db90b0023f622f4683adc109b880f84, type: 3}
 --- !u!4 &825635540 stripped
@@ -1865,7 +1880,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 11400000, guid: 961a83c562e9ab744b4fda91764ee065,
             type: 2}
-          m_ObjectArgumentAssemblyTypeName: WormsGame.Inventory.Weapon, Assembly-CSharp
+          m_ObjectArgumentAssemblyTypeName: WormsGame.Combat.Weapon, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2154,6 +2169,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Unit_Bat
+      objectReference: {fileID: 0}
+    - target: {fileID: 32971712970042277, guid: 5d051739f4671584fb36c1f4a865f9be,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 32971712970042331, guid: 5d051739f4671584fb36c1f4a865f9be,
         type: 3}
@@ -2602,6 +2622,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Unit_Slime
       objectReference: {fileID: 0}
+    - target: {fileID: 7688892592591424629, guid: f766d28d83c29e84e994152788211ad6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f766d28d83c29e84e994152788211ad6, type: 3}
 --- !u!1001 &1278384688
@@ -2815,6 +2840,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Unit_Rabbit
       objectReference: {fileID: 0}
+    - target: {fileID: 4012019656503262551, guid: 3db90b0023f622f4683adc109b880f84,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3db90b0023f622f4683adc109b880f84, type: 3}
 --- !u!4 &1318795363 stripped
@@ -2889,6 +2919,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Unit_Slime (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7688892592591424629, guid: f766d28d83c29e84e994152788211ad6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f766d28d83c29e84e994152788211ad6, type: 3}
@@ -2990,6 +3025,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Unit_Ghost (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4277424550699018757, guid: b8b6216c9fcec7741a1a2310fe45ad69,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4277424550699018875, guid: b8b6216c9fcec7741a1a2310fe45ad69,
         type: 3}
@@ -3222,7 +3262,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2da67b13e90c844792584fa6f74d58d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startingTeam: 1
+  _startingTeam: 0
 --- !u!4 &1482543357
 Transform:
   m_ObjectHideFlags: 0
@@ -3348,6 +3388,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Unit_Bat (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 32971712970042277, guid: 5d051739f4671584fb36c1f4a865f9be,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 32971712970042331, guid: 5d051739f4671584fb36c1f4a865f9be,
         type: 3}
@@ -3602,6 +3647,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Unit_Ghost (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 4277424550699018757, guid: b8b6216c9fcec7741a1a2310fe45ad69,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4277424550699018875, guid: b8b6216c9fcec7741a1a2310fe45ad69,
         type: 3}
       propertyPath: m_RootOrder
@@ -3756,6 +3806,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Unit_Rabbit (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4012019656503262551, guid: 3db90b0023f622f4683adc109b880f84,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3db90b0023f622f4683adc109b880f84, type: 3}
 --- !u!1 &1838371180
@@ -3885,6 +3940,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Unit_Bat (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 32971712970042277, guid: 5d051739f4671584fb36c1f4a865f9be,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 32971712970042331, guid: 5d051739f4671584fb36c1f4a865f9be,
         type: 3}
