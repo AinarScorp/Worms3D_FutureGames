@@ -70,7 +70,7 @@ namespace WormsGame.Combat
             }
 
  
-            if (_inputHandler.ShootInput)
+            if (_inputHandler.ShootInput && _launchForce < _maxLaunchForce)
             {
                 _launchForce +=  chargeSpeed *Time.deltaTime;
                 if (_launchForce > _maxLaunchForce)

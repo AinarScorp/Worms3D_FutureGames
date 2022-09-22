@@ -103,6 +103,7 @@ namespace WormsGame.Movement
 
         void Update()
         {
+            HandleRotation();
             if (!_inputHandler.ShootInput)
             {
                 HandleMovement();
@@ -114,8 +115,7 @@ namespace WormsGame.Movement
 
         void LateUpdate()
         {            
-            if (!_inputHandler.ShootInput)
-                HandleCameraRotation();
+            HandleCameraRotation();
         }
 
         #endregion
@@ -130,16 +130,7 @@ namespace WormsGame.Movement
                 horizontalSpeed *= _windMultilpier;
             }
 
-            if (_inputHandler.MovementInputs != Vector2.zero || rotateOnMove)
-            {
-                float moveInputX = rotateOnMove ? 0.0f : _inputHandler.MovementInputs.x;
-                float moveInputY = rotateOnMove ? 0.0f : _inputHandler.MovementInputs.y;
-                Vector3 moveInputs = new Vector3(moveInputX, 0.0f, moveInputY).normalized;
-                
-                _targetAngle = Mathf.Atan2(moveInputs.x, moveInputs.z) * Mathf.Rad2Deg + _cameraMain.eulerAngles.y;
-                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetAngle, ref _turnSmoothVelocity, _rotationSmoothTime);
-                transform.rotation = Quaternion.Euler(0f, angle, 0f);
-            }
+            //HandleRotation();
 
             Vector3 moveDirection = Quaternion.Euler(0f, _targetAngle, 0f) * Vector3.forward;
             //Vector3 verticalVelocityVector = new Vector3(0.0f, _verticalVelocity, 0.0f);
@@ -151,6 +142,20 @@ namespace WormsGame.Movement
                 _animator.SetBool("isMoving", horizontalSpeed > 0.1f);
 
 
+        }
+
+        void HandleRotation()
+        {
+            if (_inputHandler.MovementInputs != Vector2.zero || rotateOnMove)
+            {
+                float moveInputX = rotateOnMove ? 0.0f : _inputHandler.MovementInputs.x;
+                float moveInputY = rotateOnMove ? 0.0f : _inputHandler.MovementInputs.y;
+                Vector3 moveInputs = new Vector3(moveInputX, 0.0f, moveInputY).normalized;
+
+                _targetAngle = Mathf.Atan2(moveInputs.x, moveInputs.z) * Mathf.Rad2Deg + _cameraMain.eulerAngles.y;
+                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetAngle, ref _turnSmoothVelocity, _rotationSmoothTime);
+                transform.rotation = Quaternion.Euler(0f, angle, 0f);
+            }
         }
 
 
