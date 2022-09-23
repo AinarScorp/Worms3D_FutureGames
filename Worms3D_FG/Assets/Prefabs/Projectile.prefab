@@ -80,8 +80,8 @@ MonoBehaviour:
   _collisionMask:
     serializedVersion: 2
     m_Bits: 65
-  _gravity: 10
-  _explosionRadius: 4
+  _gravity: 8
+  _explosionRadius: 6
   _targetLayerMask:
     serializedVersion: 2
     m_Bits: 64
