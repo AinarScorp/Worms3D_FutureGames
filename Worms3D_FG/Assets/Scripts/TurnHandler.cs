@@ -31,13 +31,13 @@ namespace WormsGame.Core
             _cameraManager = FindObjectOfType<CameraManager>();
         }
 
-        void Start()
-        {
-            FindAllUnits();
-            ActivateRandomTeam();
-        }
+        // void Start()
+        // {
+        //     //FindAllUnits();
+        //     ActivateRandomTeam();
+        // }
         
-        void FindAllUnits()
+        public void FindAllUnits()
         {
             Unit[] allUnits = FindObjectsOfType<Unit>();
             foreach (var unit in allUnits)
@@ -51,6 +51,8 @@ namespace WormsGame.Core
                 DeactivateUnit(unit);
                 unit.Dying += RemoveUponDeath;
             }
+            ActivateRandomTeam();
+
         }
         void ActivateRandomTeam()
         {

@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 4669351187706920028, guid: fb282525580881944a5e22fd74c6754a,
         type: 3}
       propertyPath: _alliance
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6538767462623193126, guid: fb282525580881944a5e22fd74c6754a,
         type: 3}

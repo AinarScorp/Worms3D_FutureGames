@@ -15,7 +15,6 @@ namespace WormsGame.Core
         [SerializeField] Transform _handTransform;
         [SerializeField] float _deathDelay = 2.0f;
 
-        [SerializeField] int _startingHealth = 10;
         bool _unitIsAcive;
         public event Action<int, int> HealthModifed; //pass start health and modifiedHealth
         
@@ -49,9 +48,30 @@ namespace WormsGame.Core
 
         void Start()
         {
-            ModifyHealth(_startingHealth);
+            ModifyHealth(GetStartingHealth());
         }
 
+        int GetStartingHealth()
+        {
+            int startingHealth = 10;
+
+            switch (_alliance)
+            {
+                case TeamAlliance.Bats:
+                    startingHealth = TeamsStartingHealth.BatsStartHealth;
+                    break;
+                case TeamAlliance.Slimes:
+                    startingHealth = TeamsStartingHealth.SlimesStartHealth;
+                    break;                
+                case TeamAlliance.Rabbits:
+                    startingHealth = TeamsStartingHealth.RabbitsStartHealth;
+                    break;                
+                case TeamAlliance.Ghosts:
+                    startingHealth = TeamsStartingHealth.GhostsStartHealth;
+                    break;
+            }
+            return startingHealth;
+        }
         public void ModifyHealth(int amount)
         {
             int startingHealth = _currentHealth;
@@ -79,6 +99,14 @@ namespace WormsGame.Core
             
         }
         
+    }
+
+    public class TeamsStartingHealth
+    {
+        public static int SlimesStartHealth = -1;
+        public static int BatsStartHealth = -1;
+        public static int RabbitsStartHealth =-1;
+        public static int GhostsStartHealth = -1;
     }
     
 }

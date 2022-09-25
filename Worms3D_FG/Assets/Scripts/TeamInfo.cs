@@ -31,10 +31,10 @@ namespace WormsGame.Core
     }
     public enum TeamAlliance
     {
-        Slimes,
-        Rabbits,
-        Bats,
-        Ghosts
+        Slimes = 1,
+        Rabbits= 2,
+        Bats= 3,
+        Ghosts= 4
     }
     
 }
