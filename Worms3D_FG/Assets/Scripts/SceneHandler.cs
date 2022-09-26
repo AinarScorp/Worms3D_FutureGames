@@ -3,22 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneHandler : MonoBehaviour
-{
+namespace WormsGame.SceneManagement
+{ 
+    public class SceneHandler : MonoBehaviour
+    {
+        public void LoadNextScene()
+        {
+            int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
+            StartCoroutine(LoadScene(nextSceneIndex));
+        }
+        public void LoadFirstScene()
+        {
+            StartCoroutine(LoadScene(0));
 
-    public void LoadNextScene()
-    {
-        StartCoroutine(LoadScene());
-    }
-
-    IEnumerator LoadScene()
-    {
-        yield return null;
-        int currentScene = SceneManager.GetActiveScene().buildIndex;
-        SceneManager.LoadScene(currentScene + 1);
-    }
-    public void QuitGame()
-    {
-        Application.Quit();
+        }
+        IEnumerator LoadScene(int sceneIndex)
+        {
+            yield return null;
+            SceneManager.LoadScene(sceneIndex);
+        }
+        public void QuitGame()
+        {
+            Application.Quit();
+        }
     }
 }

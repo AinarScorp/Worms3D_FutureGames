@@ -96,6 +96,11 @@ PrefabInstance:
       propertyPath: _alliance
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 4669351187706920028, guid: fb282525580881944a5e22fd74c6754a,
+        type: 3}
+      propertyPath: _animator
+      value: 
+      objectReference: {fileID: 6555930177785584518}
     - target: {fileID: 7107733721671389091, guid: fb282525580881944a5e22fd74c6754a,
         type: 3}
       propertyPath: m_Name

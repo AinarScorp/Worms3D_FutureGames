@@ -313,7 +313,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 1.8
-  m_Radius: 0.7
+  m_Radius: 1
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
@@ -368,9 +368,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _currentWeapon: {fileID: 0}
   _projectileSpawnPoint: {fileID: 7106129188537164370}
-  chargeSpeed: 5
-  _maxLaunchForce: 20
-  _launchForce: 20
+  chargeSpeed: 18
+  _maxLaunchForce: 40
+  _minLaunchForce: 5
 --- !u!114 &4669351187706920028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -383,9 +383,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c075657febbf6744ab68139927619f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  setStartingHealth: 0
   _alliance: 0
   _handTransform: {fileID: 5480354756336135964}
-  _startingHealth: 10
+  _deathDelay: 2
+  _animator: {fileID: 0}
 --- !u!114 &7626588313335157975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -401,7 +403,7 @@ MonoBehaviour:
   _gravity: -15
   _heavierGravity: -30
   _gravityMultiplier: 2
-  groundedRadius: 0.5
+  groundedRadius: 0.2
   _groundLayers:
     serializedVersion: 2
     m_Bits: 1

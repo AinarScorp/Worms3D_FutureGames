@@ -12,6 +12,11 @@ PrefabInstance:
       propertyPath: _alliance
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4669351187706920028, guid: fb282525580881944a5e22fd74c6754a,
+        type: 3}
+      propertyPath: _animator
+      value: 
+      objectReference: {fileID: 6835644833641267113}
     - target: {fileID: 6538767462623193126, guid: fb282525580881944a5e22fd74c6754a,
         type: 3}
       propertyPath: _projectileSpawnPos
@@ -289,7 +294,8 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: dd1964586ba23bd42a3677e458f73a35, type: 2}
+      objectReference: {fileID: 22100000, guid: 07d6032ca6fcb974da51c68a51c64c76,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9aad9de7cbca6d84b82891c3a1e63e34, type: 3}
 --- !u!95 &6835644833641267113 stripped

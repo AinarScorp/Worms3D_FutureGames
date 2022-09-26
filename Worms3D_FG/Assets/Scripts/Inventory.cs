@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using WormsGame.Combat;
 using WormsGame.Core;
-using UnityEngine.InputSystem;
 
 namespace WormsGame.Inventory
 {
@@ -24,7 +24,7 @@ namespace WormsGame.Inventory
                 return;
             
             newWeapon.SpawnWeapon(_turnHandler.CurrentUnit.HandTransform);
-            _turnHandler.CurrentUnit.GetComponent<CombatController>().AssignNewWeapon(newWeapon);
+            _turnHandler.CurrentUnit.GetComponent<CombatController>().AssignNewWeapon(newWeapon); //think about this
             ToggleInventoryUI();
         }
 

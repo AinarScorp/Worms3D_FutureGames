@@ -2,13 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SwitchSectionBtn : MonoBehaviour
+namespace WormsGame.MainMenu
 {
-    [SerializeField] GameObject _thisSection;
-    [SerializeField] GameObject _nextSection;
-    public void SwitchSections()
+    public class SwitchSectionBtn : MonoBehaviour
     {
-        _thisSection.SetActive(false);
-        _nextSection.SetActive(true);
+        [SerializeField] GameObject _thisSection;
+        [SerializeField] GameObject _nextSection;
+        public void SwitchSections()
+        {
+            _thisSection.SetActive(false);
+            _nextSection.SetActive(true);
+        }
     }
+    
 }

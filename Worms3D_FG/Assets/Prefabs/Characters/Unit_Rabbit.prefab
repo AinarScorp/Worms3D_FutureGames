@@ -12,6 +12,11 @@ PrefabInstance:
       propertyPath: _alliance
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 4669351187706920028, guid: fb282525580881944a5e22fd74c6754a,
+        type: 3}
+      propertyPath: _animator
+      value: 
+      objectReference: {fileID: 6571544295276380557}
     - target: {fileID: 7107733721671389091, guid: fb282525580881944a5e22fd74c6754a,
         type: 3}
       propertyPath: m_Name
@@ -160,7 +165,8 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: a583bda3c7120bf448d60a5d2fa78037, type: 2}
+      objectReference: {fileID: 22100000, guid: 77b0ef3d950b2c4498924e9bf2b5a363,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c334a7c41936e764391ae93ab0e1981d, type: 3}
 --- !u!95 &6571544295276380557 stripped
