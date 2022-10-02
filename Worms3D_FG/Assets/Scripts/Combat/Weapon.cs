@@ -8,10 +8,13 @@ namespace WormsGame.Combat
     public abstract class  Weapon : ScriptableObject
     {
         [SerializeField] GameObject _weaponPrefab;
+        [SerializeField] protected float pushForce = 0.1f;
         Transform _handTransform;
         const string WEAPON_NAME = "Weapon";
         public static event Action HasFired;
-        
+
+        public float PushForce => pushForce;
+
         public void SpawnWeapon(Transform handTransform)
         {
             _handTransform = handTransform;
@@ -45,8 +48,7 @@ namespace WormsGame.Combat
 
         public virtual void Fire(Vector3 shootFromPos,Vector3 direction)
         {
-            DestroyOldWeapon();
-            HasFired?.Invoke();
+            Fire(shootFromPos, 0,direction);
         }
     }
 }

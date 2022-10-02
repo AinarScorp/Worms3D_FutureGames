@@ -1,5 +1,5 @@
 using UnityEngine;
-using WormsGame.Core;
+using WormsGame.Units;
 
 namespace WormsGame.Combat
 {
@@ -20,6 +20,7 @@ namespace WormsGame.Combat
                 if (unit)
                 {
                     unit.ModifyHealth(-_damage);
+                    unit.Push(direction, pushForce);
                 }
 
             }

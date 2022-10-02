@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace WormsGame.Core
+namespace WormsGame.Units
 {
     [Serializable]
     public class TeamInfo

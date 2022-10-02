@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _weaponPrefab: {fileID: 964709718343122173, guid: 9eae2d848b2e061499ba915eaba1c5c0,
     type: 3}
+  pushForce: 1
   projectilePrefab: {fileID: 1379397458754860071, guid: 205f5cd6e0e00b14bbba075c5170edf2,
     type: 3}
-  _maxDamage: 100
-  _minDamage: 20
-  _obstuctionPenalty: 3
+  _maxDamage: 60
+  _minDamage: 15
+  _obstuctionPenalty: 10

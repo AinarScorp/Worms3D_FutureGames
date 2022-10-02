@@ -17,6 +17,21 @@ PrefabInstance:
       propertyPath: _animator
       value: 
       objectReference: {fileID: 6835644833641267113}
+    - target: {fileID: 4669351187706920028, guid: fb282525580881944a5e22fd74c6754a,
+        type: 3}
+      propertyPath: _teamColor.b
+      value: 0.735849
+      objectReference: {fileID: 0}
+    - target: {fileID: 4669351187706920028, guid: fb282525580881944a5e22fd74c6754a,
+        type: 3}
+      propertyPath: _teamColor.g
+      value: 0.57760316
+      objectReference: {fileID: 0}
+    - target: {fileID: 4669351187706920028, guid: fb282525580881944a5e22fd74c6754a,
+        type: 3}
+      propertyPath: _teamColor.r
+      value: 0.115699485
+      objectReference: {fileID: 0}
     - target: {fileID: 6538767462623193126, guid: fb282525580881944a5e22fd74c6754a,
         type: 3}
       propertyPath: _projectileSpawnPos
@@ -146,11 +161,6 @@ PrefabInstance:
         type: 3}
       propertyPath: _moveSpeed
       value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 7107733721671389150, guid: fb282525580881944a5e22fd74c6754a,
-        type: 3}
-      propertyPath: _heightToReach
-      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7107733721671389150, guid: fb282525580881944a5e22fd74c6754a,
         type: 3}

@@ -1,6 +1,5 @@
-using Unity.Mathematics;
 using UnityEngine;
-using WormsGame.Core;
+using WormsGame.Units;
 
 
 namespace WormsGame.Combat
@@ -66,9 +65,8 @@ namespace WormsGame.Combat
             _rigidbody.velocity *= 0;
 
             if (_explosionParticle != null)
-            {
-                Instantiate(_explosionParticle, _exlosionPoint, quaternion.identity);
-            }
+                Instantiate(_explosionParticle, _exlosionPoint, Quaternion.identity);
+            
 
             Collider[] allColliders = Physics.OverlapSphere(transform.position, _explosionRadius,_collisionMask);
             foreach (var collider in allColliders)
@@ -76,7 +74,11 @@ namespace WormsGame.Combat
                 Unit unit = collider.GetComponent<Unit>();
                 if (unit !=null)
                 {
-                    unit.ModifyHealth(-DamageFromExplosion(unit));
+                    Vector3 direction = unit.transform.position - _exlosionPoint;
+                    int damage = DamageFromExplosion(unit);
+                    unit.ModifyHealth(-damage);
+                    unit.Push(direction, _weapon.PushForce * damage);
+
                 }
             }
         }

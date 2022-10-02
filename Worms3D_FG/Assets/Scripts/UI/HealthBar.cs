@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using WormsGame.Core;
+using WormsGame.Units;
 
 namespace WormsGame.UI
 {
@@ -60,6 +61,7 @@ namespace WormsGame.UI
         void DisplayHealth()
         {
             _lifeLeftDisplay.text = _currentDisplayedHealth.ToString();
+            _lifeLeftDisplay.color = _unit.TeamColor;
         }
 
         void DestoyMe()
