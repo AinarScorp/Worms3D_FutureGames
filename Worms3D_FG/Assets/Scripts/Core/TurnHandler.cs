@@ -57,6 +57,11 @@ namespace WormsGame.Core
                 DeactivateUnit(unit);
                 unit.Dying += RemoveUponDeath;
             }
+
+            foreach (var team in _allTeams)
+            {
+                team.StoreMaxTeamHealth();
+            }
             ActivateRandomTeam();
 
         }

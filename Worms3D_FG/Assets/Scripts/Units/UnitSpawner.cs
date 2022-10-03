@@ -35,6 +35,7 @@ namespace WormsGame.Units
             SpawnUnits(GhostUnitCount, _ghostPrefab);
 
             FindObjectOfType<TurnHandler>().FindAllUnits();
+            
         }
 
 

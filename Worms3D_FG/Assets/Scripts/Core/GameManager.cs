@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using WormsGame.SceneManagement;
+using WormsGame.Units;
 
 namespace WormsGame.Core
 {
@@ -15,6 +16,10 @@ namespace WormsGame.Core
             _turnHandler.TeamRemoved += GameOver;
         }
 
+        void CreateTeamsHealthUI(Unit unit)
+        {
+            
+        }
         void OnDestroy()
         {
             _turnHandler.TeamRemoved -= GameOver;

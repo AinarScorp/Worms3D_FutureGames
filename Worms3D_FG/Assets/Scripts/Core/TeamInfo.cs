@@ -8,6 +8,9 @@ namespace WormsGame.Units
     {
         TeamAlliance _teamAlliance;
         List<Unit> _availableUnits = new List<Unit>();
+        int _teamsFullHealth;
+        int _teamsCurrentHealth;
+        public static event Action<Unit> UnitAdded;
         public TeamAlliance TeamAlliance => _teamAlliance;
 
         public List<Unit> AvailableUnits => _availableUnits;
@@ -21,12 +24,25 @@ namespace WormsGame.Units
         public void AddUnit(Unit unit)
         {
             _availableUnits.Add(unit);
+            
         }
 
         public void RemoveUnit(Unit unit)
         {
             _availableUnits.Remove(unit);
 
+        }
+
+        public void StoreMaxTeamHealth()
+        {
+            int fullHealth = 0;
+            foreach (var unit in _availableUnits)
+            {
+                fullHealth += unit.GetStartingHealth();
+            }
+
+            _teamsFullHealth = fullHealth;
+            _teamsCurrentHealth = fullHealth;
         }
     }
     public enum TeamAlliance

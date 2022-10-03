@@ -63,7 +63,7 @@ namespace WormsGame.Units
             ModifyHealth(GetStartingHealth());
         }
 
-        int GetStartingHealth()
+        public int GetStartingHealth()
         {
             int startingHealth = 100;
             if (setStartingHealth) return startingHealth;
