@@ -8,7 +8,7 @@ using WormsGame.Units;
 
 namespace WormsGame.UI
 {
-    public class HealthBar : MonoBehaviour
+    public class UnitHealthBar : MonoBehaviour
     {
         [SerializeField] float positionOffset = 2.0f;
         [SerializeField] TextMeshProUGUI _lifeLeftDisplay;

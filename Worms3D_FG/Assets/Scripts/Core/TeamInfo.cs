@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using WormsGame.UI;
 
 namespace WormsGame.Units
 {
@@ -15,12 +16,14 @@ namespace WormsGame.Units
 
         public List<Unit> AvailableUnits => _availableUnits;
 
+        public int TeamsFullHealth => _teamsFullHealth;
+
         public TeamInfo(TeamAlliance teamAlliance)
         {
             _teamAlliance = teamAlliance;
         }
 
-
+        
         public void AddUnit(Unit unit)
         {
             _availableUnits.Add(unit);
@@ -33,6 +36,16 @@ namespace WormsGame.Units
 
         }
 
+        public int GetTeamCurrentHealth()
+        {
+            int currentHealth = 0;
+            foreach (var unit in _availableUnits)
+            {
+                currentHealth += unit.CurrentHealth;
+            }
+
+            return currentHealth;
+        }
         public void StoreMaxTeamHealth()
         {
             int fullHealth = 0;

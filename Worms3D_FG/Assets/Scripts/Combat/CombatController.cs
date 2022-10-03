@@ -12,6 +12,7 @@ namespace WormsGame.Combat
         [SerializeField] float _minLaunchForce = 5.0f;
         
         [SerializeField] Transform _projectileSpawnPoint; // use frist person camera
+        [SerializeField] Transform _handTransform;
         
         [SerializeField] Weapon _currentWeapon;
 
@@ -19,10 +20,11 @@ namespace WormsGame.Combat
         bool _hasShot;
         bool _weaponIsChargable;
         
-        Vector3 direction;
         Image _chargeBar;
         
         InputHandler _inputHandler;
+
+        public Weapon CurrentWeapon => _currentWeapon;
 
         void Awake()
         {
@@ -56,10 +58,10 @@ namespace WormsGame.Combat
 
             if (!_weaponIsChargable)
             {
-                direction = _projectileSpawnPoint.rotation * Vector3.forward;
+                Vector3 direction = _projectileSpawnPoint.rotation * Vector3.forward;
 
-                _currentWeapon.Fire(_projectileSpawnPoint.position,direction);
-                _currentWeapon = null;
+                _currentWeapon.Fire(_projectileSpawnPoint.position,_projectileSpawnPoint.forward);
+                DestroyCurrentWeapon();
                 this.enabled = false;
                 return;
             }
@@ -75,10 +77,9 @@ namespace WormsGame.Combat
             else
             {                
 
-                direction = _projectileSpawnPoint.rotation * Vector3.forward;
-                _currentWeapon.Fire(_projectileSpawnPoint.position,  _launchForce,direction);
-                _currentWeapon = null;
-
+                Vector3 direction = _projectileSpawnPoint.rotation * Vector3.forward;
+                _currentWeapon.Fire(_projectileSpawnPoint.position,  _launchForce,_projectileSpawnPoint.forward);
+                DestroyCurrentWeapon();
                 this.enabled = false;
 
             }
@@ -93,8 +94,19 @@ namespace WormsGame.Combat
         public void AssignNewWeapon(Weapon newWeapon)
         {
             this.enabled = true;
+            newWeapon.SpawnWeapon(_handTransform);
             _currentWeapon = newWeapon;
         }
+
+        public void DestroyCurrentWeapon()
+        {
+            this.enabled = false;
+            _currentWeapon.DestroyOldWeapon();
+            _currentWeapon = null;
+
+        }
+        
+        
 
     }
     

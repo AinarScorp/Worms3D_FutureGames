@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using WormsGame.Combat;
 using WormsGame.Inputs;
 using WormsGame.Core;
 using WormsGame.Movement;
@@ -26,6 +27,7 @@ namespace WormsGame.Units
         
         InputHandler _inputHandler;
         ImpactKnockback _impactKnockback;
+        CombatController _combatController;
         
         public event Action<Unit> Dying;
         public event Action<int, int> HealthModifed; //pass start health and modifiedHealth
@@ -39,11 +41,13 @@ namespace WormsGame.Units
         public int CurrentHealth => _currentHealth;
 
         public Color TeamColor => _teamColor;
+        public CombatController CombatController => _combatController;
 
         #endregion
 
         void Awake()
         {
+            _combatController = GetComponent<CombatController>();
             _impactKnockback = GetComponent<ImpactKnockback>();
             _inputHandler = GetComponent<InputHandler>();
             _inputHandler.SubscribeToActivation(() => _unitIsAcive = true,true);
@@ -116,7 +120,15 @@ namespace WormsGame.Units
         }
 
 
-        public void ToggleUnit(bool activate) => _inputHandler.enabled = activate;
+        public void ToggleUnit(bool activate)
+        {
+            _inputHandler.enabled = activate;
+            // if (!activate)
+            // {
+            //     _combatController.CurrentWeapon?.DestroyOldWeapon();
+            //     
+            // }
+        }
     }
 
     public class TeamsStartingHealth

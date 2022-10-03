@@ -27,7 +27,7 @@ namespace WormsGame.Combat
             }
         }
 
-        void DestroyOldWeapon()
+        public void DestroyOldWeapon()
         {
             Transform oldWeapon = _handTransform.Find(WEAPON_NAME);
             if (oldWeapon == null)
@@ -42,7 +42,6 @@ namespace WormsGame.Combat
 
         public virtual void Fire(Vector3 spawnPos, float launchForce, Vector3 direction)
         {
-            DestroyOldWeapon();
             HasFired?.Invoke();
         }
 

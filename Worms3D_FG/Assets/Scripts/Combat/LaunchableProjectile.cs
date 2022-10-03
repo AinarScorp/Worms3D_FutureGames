@@ -109,7 +109,6 @@ namespace WormsGame.Combat
                 //print($"{transform.position} + {targetUnit.name} + collider: {hit.collider.name}");
                 return receivedDamage;
             }
-
             return 0;
         }
 
@@ -117,8 +116,6 @@ namespace WormsGame.Combat
         {
                 Gizmos.color = Color.red;
                 Gizmos.DrawWireSphere(_exlosionPoint,_explosionRadius);
-
-            
         }
     }
     

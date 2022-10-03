@@ -14,17 +14,18 @@ namespace WormsGame.Core
     public class TurnHandler : MonoBehaviour
     {
         int _currentUnitIndex;
-        bool _turnFinished;
+        bool _hasFired;
         
         CameraManager _cameraManager;
         TeamInfo _currentTeamTurn;
         Unit _currentUnit;
         public event Action TeamRemoved;
-        
+        public event Action<TeamInfo> TeamCreated;
+        public event Action TurnFinished;
+
         List<TeamInfo> _allTeams = new List<TeamInfo>();
         public Unit CurrentUnit => _currentUnit;
-        public bool TurnFinished => _turnFinished;
-
+        public bool HasFired => _hasFired;
         public List<TeamInfo> AllTeams => _allTeams;
 
         void Awake()
@@ -37,12 +38,6 @@ namespace WormsGame.Core
         {
             Weapon.HasFired -= FinishTurn;
         }
-        // void Start()
-        // {
-        //     //FindAllUnits();
-        //     ActivateRandomTeam();
-        // }
-        
         public void FindAllUnits()
         {
             Unit[] allUnits = FindObjectsOfType<Unit>();
@@ -61,6 +56,7 @@ namespace WormsGame.Core
             foreach (var team in _allTeams)
             {
                 team.StoreMaxTeamHealth();
+                TeamCreated?.Invoke(team);
             }
             ActivateRandomTeam();
 
@@ -96,6 +92,7 @@ namespace WormsGame.Core
             unit.ToggleUnit(true);
 
             _cameraManager.FocusOnCurrentPlayer(unit.gameObject);
+            
         }
 
         void AddToTeamsList(Unit unit)
@@ -149,7 +146,12 @@ namespace WormsGame.Core
             }
         }
 
-        void DeactivateUnit(Unit unit) => unit.ToggleUnit(false);
+        void DeactivateUnit(Unit unit)
+        {
+            unit.ToggleUnit(false);
+            unit.CombatController.CurrentWeapon?.DestroyOldWeapon();
+        }
+
         List<Unit> GetUnitList(TeamInfo teamInfo) => teamInfo.AvailableUnits;
 
 
@@ -165,11 +167,12 @@ namespace WormsGame.Core
 
         public void FinishTurn()
         {
+            TurnFinished?.Invoke();
             StartCoroutine(FinishingTurn());
         }
         public IEnumerator FinishingTurn()
         {
-            _turnFinished = true;
+            _hasFired = true;
             yield return new WaitForSeconds(5);
             
             int currentTeamIndex = -1;
@@ -194,10 +197,9 @@ namespace WormsGame.Core
             int index = GetUnitIndex(_currentUnitIndex + 1);
 
             ActivateTeamMember(index);
-            _turnFinished = false;
+            _hasFired = false;
         }
-        
-        
+
         #region InputSystem
 
         
@@ -209,7 +211,7 @@ namespace WormsGame.Core
                 //what if he died???
                 if (!_currentUnit.InputHandler.enabled)
                     return;
-
+                
                 int index = GetUnitIndex(_currentUnitIndex + 1);
                 ActivateTeamMember(index);
             }
