@@ -407,7 +407,7 @@ MonoBehaviour:
   _gravity: -15
   _heavierGravity: -30
   _gravityMultiplier: 2
-  groundedRadius: 0.2
+  groundedRadius: 0.5
   _groundLayers:
     serializedVersion: 2
     m_Bits: 1
