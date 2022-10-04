@@ -34,15 +34,7 @@ namespace WormsGame.Movement
         [SerializeField] float _windMultilpier = 0.5f;
 
         [SerializeField] float _jumpCooldown = 0.5f;
-
-
-        [Header("Physics")] //
-        //[SerializeField] float _gravity = -15;
-        //[SerializeField] float _heavierGravity = -30;
-
-        //[SerializeField] float _gravityMulitplier = 2.0f;
-        // [SerializeField] float groundedRadius = 0.5f;
-        // [SerializeField] LayerMask _groundLayers;
+        
 
         [Header("Animations")] 
         [SerializeField] Animator _animator;
@@ -58,11 +50,9 @@ namespace WormsGame.Movement
         float _jumpCooldownTimer;
 
         //Physics
-        //float horizontalSpeed;
-        //Vector3 moveDirection;
+
         CustomGravity _customGravity;
 
-        //float _verticalVelocity;
 
         // Camera Cinemachine
         Transform _cameraMain;
@@ -76,7 +66,6 @@ namespace WormsGame.Movement
         #endregion
 
         #region Properties
-
         public InputHandler InputHandler => _inputHandler;
         public Transform ThirdPersonCamTarget => _thirdPersonCamTarget;
         public Transform FirstPersonCamTarget => _firstPersonCamTarget;
@@ -89,13 +78,12 @@ namespace WormsGame.Movement
         void Awake()
         {
             if (_animator == null)
-            {
-                 _animator = GetComponentInChildren<Animator>();
-                
-            }
+                _animator = GetComponentInChildren<Animator>();
+            
             _inputHandler = GetComponent<InputHandler>();
             _customGravity = GetComponent<CustomGravity>();
             _cameraMain = Camera.main.transform;
+            
             _inputHandler.SubscribeToActivation(() => this.enabled = true, true);
             _inputHandler.SubscribeToActivation(() => this.enabled = false, false);
             
@@ -139,8 +127,7 @@ namespace WormsGame.Movement
 
             moveDirection = Quaternion.Euler(0f, _targetAngle, 0f) * Vector3.forward;
             moveDirection.Normalize();
-            //_characterController.Move(moveDirection.normalized * (horizontalSpeed * Time.deltaTime) +verticalVelocityVector * Time.deltaTime);
-            //_characterController.Move(moveDirection.normalized * (horizontalSpeed * Time.deltaTime));
+
             if (_animator != null )
                 _animator.SetBool("isMoving", horizontalSpeed > 0.1f);
 
@@ -201,23 +188,10 @@ namespace WormsGame.Movement
             _firstPersonCamTarget.rotation = _thirdPersonCamTarget.rotation;
         }
 
-        public Transform GetCurrentCameraTransform()
-        {
-            return _inputHandler.IsAiming ? _firstPersonCamTarget : _thirdPersonCamTarget;
-        }
 
         public void SetRotateOnMove(bool value) => rotateOnMove = value;
-
-
-
-
-        // bool IsGrounded()
-        // {
-        //     return Physics.CheckSphere(transform.position, groundedRadius, _groundLayers);
-        // }
-
-
-        private float ClampAngle(float lfAngle, float lfMin, float lfMax)
+        
+        float ClampAngle(float lfAngle, float lfMin, float lfMax)
         {
             if (lfAngle < -360f) lfAngle += 360f;
             if (lfAngle > 360f) lfAngle -= 360f;
@@ -225,3 +199,36 @@ namespace WormsGame.Movement
         }
     }
 }
+
+#region Commented out
+
+//[Header("Physics")] //
+//[SerializeField] float _gravity = -15;
+//[SerializeField] float _heavierGravity = -30;
+
+//[SerializeField] float _gravityMulitplier = 2.0f;
+// [SerializeField] float groundedRadius = 0.5f;
+// [SerializeField] LayerMask _groundLayers;
+//••Physics
+//float horizontalSpeed;
+//Vector3 moveDirection;
+//float _verticalVelocity;
+
+
+//••••was inside GetDirectionAndSpped
+//_characterController.Move(moveDirection.normalized * (horizontalSpeed * Time.deltaTime) +verticalVelocityVector * Time.deltaTime);
+//_characterController.Move(moveDirection.normalized * (horizontalSpeed * Time.deltaTime));
+
+
+// public Transform GetCurrentCameraTransform()
+// {
+//     return _inputHandler.IsAiming ? _firstPersonCamTarget : _thirdPersonCamTarget;
+// }
+
+
+// bool IsGrounded()
+// {
+//     return Physics.CheckSphere(transform.position, groundedRadius, _groundLayers);
+// }
+
+#endregion

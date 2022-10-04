@@ -9,28 +9,24 @@ namespace WormsGame.Core
 {
     public class GameManager : MonoBehaviour
     {
-        TurnHandler _turnHandler;
+        TeamsHandler _teamsHandler;
         void Awake()
         {
-            _turnHandler = FindObjectOfType<TurnHandler>();
-            _turnHandler.TeamRemoved += GameOver;
+            _teamsHandler = FindObjectOfType<TeamsHandler>();
+            _teamsHandler.TeamRemoved += GameOver;
         }
-
-        void CreateTeamsHealthUI(Unit unit)
-        {
-            
-        }
+        
         void OnDestroy()
         {
-            _turnHandler.TeamRemoved -= GameOver;
+            _teamsHandler.TeamRemoved -= GameOver;
         }
 
         void GameOver()
         {
-            if (_turnHandler.AllTeams.Count <=1)
+            if (_teamsHandler.AllTeams.Count <=1)
             {
                 Debug.Log("Game Over");
-                _turnHandler.TeamRemoved -= GameOver;
+                _teamsHandler.TeamRemoved -= GameOver;
                 GameObject.FindWithTag("SceneManager").TryGetComponent(out SceneHandler sceneHandler);
                 sceneHandler?.LoadNextScene();
                 

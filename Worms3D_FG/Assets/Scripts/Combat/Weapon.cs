@@ -9,6 +9,8 @@ namespace WormsGame.Combat
     {
         [SerializeField] GameObject _weaponPrefab;
         [SerializeField] protected float pushForce = 0.1f;
+        
+        
         Transform _handTransform;
         const string WEAPON_NAME = "Weapon";
         public static event Action HasFired;
@@ -30,11 +32,7 @@ namespace WormsGame.Combat
         public void DestroyOldWeapon()
         {
             Transform oldWeapon = _handTransform.Find(WEAPON_NAME);
-            if (oldWeapon == null)
-            {
-                return;
-                
-            }
+            if (oldWeapon == null) return;
 
             oldWeapon.name = "BEING DESTROYED";
             Destroy(oldWeapon.gameObject);

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using WormsGame.Combat;
 using WormsGame.Inputs;
-using WormsGame.Core;
 using WormsGame.Movement;
 
 namespace WormsGame.Units
@@ -16,15 +15,19 @@ namespace WormsGame.Units
         
         [Header("Debuggin")]
         [SerializeField] bool setStartingHealth;
-
-        [SerializeField] float _deathDelay = 2.0f;
-        [SerializeField] Transform _handTransform;
-        [SerializeField] TeamAlliance _alliance;
+        
+        [Header("Wiring ")]
         [SerializeField] Animator _animator;
+        
+        [Header("Unit setup")]
         [SerializeField] Color _teamColor = Color.black;
+        [SerializeField] TeamAlliance _alliance;
+        [SerializeField] float _deathDelay = 2.0f;
+        
         bool _unitIsAcive;
         int _currentHealth = 0;
         
+        //cached
         InputHandler _inputHandler;
         ImpactKnockback _impactKnockback;
         CombatController _combatController;
@@ -33,14 +36,11 @@ namespace WormsGame.Units
         public event Action<int, int> HealthModifed; //pass start health and modifiedHealth
 
         #region Properties
-        public TeamAlliance Alliance => _alliance;
-        public Transform HandTransform => _handTransform;
-        public InputHandler InputHandler => _inputHandler;
         public bool UnitIsAcive => _unitIsAcive;
-
         public int CurrentHealth => _currentHealth;
-
+        public TeamAlliance Alliance => _alliance;
         public Color TeamColor => _teamColor;
+        public InputHandler InputHandler => _inputHandler;
         public CombatController CombatController => _combatController;
 
         #endregion
@@ -52,8 +52,6 @@ namespace WormsGame.Units
             _inputHandler = GetComponent<InputHandler>();
             _inputHandler.SubscribeToActivation(() => _unitIsAcive = true,true);
             _inputHandler.SubscribeToActivation(() => _unitIsAcive = false,false);
-            
-
         }
 
         void OnEnable()
@@ -120,14 +118,12 @@ namespace WormsGame.Units
         }
 
 
-        public void ToggleUnit(bool activate)
+        public void ToggleActivation(bool turnOn)
         {
-            _inputHandler.enabled = activate;
-            // if (!activate)
-            // {
-            //     _combatController.CurrentWeapon?.DestroyOldWeapon();
-            //     
-            // }
+            _inputHandler.enabled = turnOn;
+            if (!turnOn)
+                _combatController.CurrentWeapon?.DestroyOldWeapon();
+            
         }
     }
 

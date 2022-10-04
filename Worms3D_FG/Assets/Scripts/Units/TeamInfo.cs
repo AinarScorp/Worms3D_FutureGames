@@ -1,22 +1,22 @@
 using System;
 using System.Collections.Generic;
-using WormsGame.UI;
 
 namespace WormsGame.Units
 {
     [Serializable]
     public class TeamInfo
     {
+        int _teamsFullHealth;
         TeamAlliance _teamAlliance;
         List<Unit> _availableUnits = new List<Unit>();
-        int _teamsFullHealth;
-        int _teamsCurrentHealth;
-        public static event Action<Unit> UnitAdded;
-        public TeamAlliance TeamAlliance => _teamAlliance;
 
-        public List<Unit> AvailableUnits => _availableUnits;
+        #region Properties
 
         public int TeamsFullHealth => _teamsFullHealth;
+        public TeamAlliance TeamAlliance => _teamAlliance;
+        public List<Unit> AvailableUnits => _availableUnits;
+
+        #endregion
 
         public TeamInfo(TeamAlliance teamAlliance)
         {
@@ -24,17 +24,9 @@ namespace WormsGame.Units
         }
 
         
-        public void AddUnit(Unit unit)
-        {
-            _availableUnits.Add(unit);
-            
-        }
+        public void AddUnit(Unit unit) => _availableUnits.Add(unit);
 
-        public void RemoveUnit(Unit unit)
-        {
-            _availableUnits.Remove(unit);
-
-        }
+        public void RemoveUnit(Unit unit) => _availableUnits.Remove(unit);
 
         public int GetTeamCurrentHealth()
         {
@@ -46,7 +38,7 @@ namespace WormsGame.Units
 
             return currentHealth;
         }
-        public void StoreMaxTeamHealth()
+        public void StoreTeamHealthCombined()
         {
             int fullHealth = 0;
             foreach (var unit in _availableUnits)
@@ -55,7 +47,6 @@ namespace WormsGame.Units
             }
 
             _teamsFullHealth = fullHealth;
-            _teamsCurrentHealth = fullHealth;
         }
     }
     public enum TeamAlliance

@@ -13,7 +13,7 @@ namespace WormsGame.Inventory
         [SerializeField] Transform _inventoryUI;
         TurnHandler _turnHandler;
 
-        private void Awake()
+        void Awake()
         {
             _turnHandler = FindObjectOfType<TurnHandler>(_turnHandler);
         }
@@ -42,7 +42,7 @@ namespace WormsGame.Inventory
         void ToggleInventoryUI()
         {
             bool inventoryIsOpen = _inventoryUI.gameObject.activeInHierarchy;
-            _turnHandler.CurrentUnit.ToggleUnit(inventoryIsOpen);
+            _turnHandler.CurrentUnit.ToggleActivation(inventoryIsOpen);
             _inventoryUI.gameObject.SetActive(!inventoryIsOpen);
             Cursor.visible = !inventoryIsOpen;
         }

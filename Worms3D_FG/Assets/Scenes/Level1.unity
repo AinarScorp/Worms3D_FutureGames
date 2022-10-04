@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12245288, g: 0.30844882, b: 0.70518726, a: 1}
+  m_IndirectSpecularColor: {r: 0.11272266, g: 0.28158385, b: 0.70917684, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -206,7 +206,7 @@ GameObject:
   - component: {fileID: 13208666}
   m_Layer: 0
   m_Name: InventoryManager
-  m_TagString: Untagged
+  m_TagString: Manager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1647,7 +1647,7 @@ GameObject:
   - component: {fileID: 480214155}
   m_Layer: 0
   m_Name: GameManager
-  m_TagString: Untagged
+  m_TagString: Manager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2970,7 +2970,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &764680793
+--- !u!1 &782223507
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2978,53 +2978,42 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 764680794}
-  - component: {fileID: 764680795}
-  m_Layer: 5
-  m_Name: HealthBarController
-  m_TagString: Untagged
+  - component: {fileID: 782223508}
+  - component: {fileID: 782223509}
+  m_Layer: 0
+  m_Name: TeamsHandler
+  m_TagString: Manager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &764680794
-RectTransform:
+--- !u!4 &782223508
+Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 764680793}
+  m_GameObject: {fileID: 782223507}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: -1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2081493391}
-  m_RootOrder: 0
+  m_Father: {fileID: 1164115851}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1, y: 1}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &764680795
+--- !u!114 &782223509
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 764680793}
+  m_GameObject: {fileID: 782223507}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22faf7433b18dc34b8bca7937fbbb7ba, type: 3}
+  m_Script: {fileID: 11500000, guid: 643f2c285b3922944a4b2f015f04ea65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitHealthBar: {fileID: 7313001519441673829, guid: 7624f64e608c53f449b1768d563b7a9e,
-    type: 3}
-  _teamHealthPrefab: {fileID: 2108203468704143700, guid: c56fbb6f32a89c142b369ffd833b759e,
-    type: 3}
-  _teamHealthContainer: {fileID: 974188480}
-  _shwoingTeamsHealthTime: 2
 --- !u!1001 &815040967
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3957,7 +3946,7 @@ GameObject:
   - component: {fileID: 946339860}
   m_Layer: 0
   m_Name: CameraHandler
-  m_TagString: Untagged
+  m_TagString: Manager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3991,7 +3980,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   firstPersonCamera: {fileID: 8996326646673406834}
   thirdPersonCamera: {fileID: 1658363057}
-  currentUnit: {fileID: 0}
   _crossFire: {fileID: 1582975550}
 --- !u!1001 &965557902
 PrefabInstance:
@@ -5186,6 +5174,8 @@ Transform:
   - {fileID: 480214154}
   - {fileID: 946339859}
   - {fileID: 614814805}
+  - {fileID: 782223508}
+  - {fileID: 1404875182}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6338,6 +6328,57 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e5d7b87d422ee0f478ee09eb32e24f4e, type: 3}
+--- !u!1 &1404875181
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1404875182}
+  - component: {fileID: 1404875183}
+  m_Layer: 0
+  m_Name: HealthBarsController
+  m_TagString: Manager
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1404875182
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1404875181}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1164115851}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1404875183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1404875181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22faf7433b18dc34b8bca7937fbbb7ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitHealthBar: {fileID: 7313001519441673829, guid: 7624f64e608c53f449b1768d563b7a9e,
+    type: 3}
+  _teamHealthPrefab: {fileID: 2108203468704143700, guid: c56fbb6f32a89c142b369ffd833b759e,
+    type: 3}
+  _unitsHealthContainer: {fileID: 1992459495}
+  _teamHealthContainer: {fileID: 974188480}
+  _shwoingTeamsHealthTime: 2
 --- !u!1 &1415420923
 GameObject:
   m_ObjectHideFlags: 0
@@ -6656,7 +6697,7 @@ GameObject:
   - component: {fileID: 1482543358}
   m_Layer: 0
   m_Name: TurnHandler
-  m_TagString: Untagged
+  m_TagString: Manager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9478,6 +9519,42 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1931520710}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1992459494
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1992459495}
+  m_Layer: 5
+  m_Name: UnitsHealth
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1992459495
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1992459494}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2081493391}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!4 &2013829656 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3248315488105561783, guid: 687dbafc2b84b2846b9a4a7a7dae2a7e,
@@ -9947,7 +10024,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 764680794}
+  - {fileID: 1992459495}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}

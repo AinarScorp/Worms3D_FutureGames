@@ -7,22 +7,18 @@ namespace WormsGame.Movement
 {
     public class ImpactKnockback : MonoBehaviour
     {
-        [SerializeField] bool _update = false;
-        [SerializeField] Vector3 _direction;
-        [SerializeField] float _force;
-        Vector3 _impact = Vector3.zero;
-        CharacterController _characterController;
         [SerializeField] float _impactReductionSpeed = 2.0f;
+        
+        Vector3 _impact = Vector3.zero;
+
+        CharacterController _characterController;
         Coroutine _impactReduction;
 
+        #region Properties
         public Vector3 Impact => _impact;
+        #endregion
 
-        void Update()
-        {
-            if (!_update) return;
-            _update = false;
-            AddImpact(_direction.normalized, _force);
-        }
+
 
         public void AddImpact(Vector3 direction,float force)
         {

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using WormsGame.Core;
 using Random = UnityEngine.Random;
 
 namespace WormsGame.Units
@@ -34,7 +33,7 @@ namespace WormsGame.Units
             SpawnUnits(SlimeUnitCount, _slimePrefab);
             SpawnUnits(GhostUnitCount, _ghostPrefab);
 
-            FindObjectOfType<TurnHandler>().FindAllUnits();
+            FindObjectOfType<TeamsHandler>().FindAllUnits();
             
         }
 

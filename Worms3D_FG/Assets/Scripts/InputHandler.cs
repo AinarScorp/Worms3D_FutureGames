@@ -72,6 +72,8 @@ namespace WormsGame.Inputs
                 _shootInput = false;
             },false);
         }
+        
+        //I have learnt events, you can switch to them instead
         public void SubscribeToActivation(Action actionToSubscribe, bool toEnabled)
         {
             if (toEnabled)

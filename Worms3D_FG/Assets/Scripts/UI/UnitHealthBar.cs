@@ -11,11 +11,15 @@ namespace WormsGame.UI
     public class UnitHealthBar : MonoBehaviour
     {
         [SerializeField] float positionOffset = 2.0f;
-        [SerializeField] TextMeshProUGUI _lifeLeftDisplay;
         [SerializeField] float _displayUpdateSpeed =2.0f;
+        
+        [SerializeField] TextMeshProUGUI _lifeLeftDisplay;
+        
         int _currentDisplayedHealth = -999;
-        Unit _unit;
+        
+        //cached
         Camera _mainCamera;
+        Unit _unit;
         void Awake()
         {
             _mainCamera = Camera.main;
@@ -25,8 +29,18 @@ namespace WormsGame.UI
         {
             if (_unit == null) return;
 
-            transform.position = _unit.transform.position + Vector3.up * positionOffset;
+            FollowUnitWithOffset();
+            LookAtCamera();
+        }
+
+        void LookAtCamera()
+        {
             transform.LookAt(_mainCamera.transform, Vector3.up);
+        }
+
+        void FollowUnitWithOffset()
+        {
+            transform.position = _unit.transform.position + Vector3.up * positionOffset;
         }
 
         public void SetupHealthBar(Unit unit)

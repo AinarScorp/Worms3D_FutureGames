@@ -1,6 +1,9 @@
+using System;
 using UnityEngine;
 using Cinemachine;
+using WormsGame.Core;
 using WormsGame.Movement;
+using WormsGame.Units;
 
 namespace WormsGame.Cameras
 {
@@ -8,9 +11,16 @@ namespace WormsGame.Cameras
     {
         [SerializeField] CinemachineVirtualCamera firstPersonCamera;
         [SerializeField] CinemachineVirtualCamera thirdPersonCamera;
-        [SerializeField] PlayerController currentUnit;
-
         [SerializeField] GameObject _crossFire;
+        
+        PlayerController _currentUnit;
+
+
+        void Awake()
+        {
+            FindObjectOfType<TurnHandler>().UnitChanged += FocusOnCurrentPlayer;
+        }
+
         void Update()
         {
             ControlPerspective();
@@ -18,17 +28,18 @@ namespace WormsGame.Cameras
 
         void ControlPerspective()
         {
-            if (currentUnit == null)
+            if (_currentUnit == null)
             {
+                Debug.LogError("there is no current unit, report");
                 this.gameObject.SetActive(false);
                 return;
             }
             
-            if (currentUnit.InputHandler.IsAiming && !firstPersonCamera.enabled)
+            if (_currentUnit.InputHandler.IsAiming && !firstPersonCamera.enabled)
             {
                 ChangeCamera(true);
             }
-            else if(!currentUnit.InputHandler.IsAiming && firstPersonCamera.enabled)
+            else if(!_currentUnit.InputHandler.IsAiming && firstPersonCamera.enabled)
             {
                 ChangeCamera(false);
             }
@@ -38,25 +49,25 @@ namespace WormsGame.Cameras
         {
             if (setFirstPersonCamera)
             {
-                currentUnit.MatchCameras();
+                _currentUnit.MatchCameras();
                 
             }
             firstPersonCamera.enabled = setFirstPersonCamera;
             _crossFire.SetActive(setFirstPersonCamera);
             thirdPersonCamera.enabled = !setFirstPersonCamera;
-            currentUnit.SetRotateOnMove(firstPersonCamera.enabled);
+            _currentUnit.SetRotateOnMove(firstPersonCamera.enabled);
 
         }
 
-        public void FocusOnCurrentPlayer(GameObject playerController)
+        public void FocusOnCurrentPlayer(Unit unit)
         {
-            playerController.TryGetComponent(out PlayerController currentPlayer);
+            unit.TryGetComponent(out PlayerController currentPlayer);
             if (currentPlayer == null) return;
             firstPersonCamera.enabled = false;
             thirdPersonCamera.enabled = true;
             firstPersonCamera.Follow = currentPlayer.FirstPersonCamTarget;
             thirdPersonCamera.Follow = currentPlayer.ThirdPersonCamTarget;
-            this.currentUnit = currentPlayer;
+            this._currentUnit = currentPlayer;
         }
     }
 }

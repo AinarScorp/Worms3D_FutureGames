@@ -28,12 +28,17 @@ namespace WormsGame.Movement
 
         void SupplyCharacterController()
         {
-            Vector3 gravityMotion = _customGravity.GetVerticalVelocity() * Time.deltaTime;
-            Vector3 impactMotion = _impactKnockback.Impact * Time.deltaTime;
-            _characterController.Move(GetInputMotion() + gravityMotion + impactMotion);
-
+            _characterController.Move(GetInputMotion() + GetGravityMotion() + GetImpactMotion());
         }
 
+        Vector3 GetImpactMotion()
+        {
+            return _impactKnockback.Impact * Time.deltaTime;
+        }
+        Vector3 GetGravityMotion()
+        {
+            return _customGravity.GetVerticalVelocity() * Time.deltaTime;
+        }
         Vector3 GetInputMotion()
         {
             _playerController.GetDirectionAndSpeed(out Vector3 moveDirection, out float horizontalSpeed);

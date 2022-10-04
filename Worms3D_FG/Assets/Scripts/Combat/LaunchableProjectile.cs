@@ -50,6 +50,7 @@ namespace WormsGame.Combat
         {
             if ((_collisionMask.value & (1 << collision.collider.transform.gameObject.layer)) > 0)
             {
+                //I do this check to make sure it doesn't collide with the one that has shot the projectile
                 Unit currentUnit = collision.collider.GetComponent<Unit>();
                 if (currentUnit !=null && currentUnit.UnitIsAcive) return;
                 _exlosionPoint = transform.position;

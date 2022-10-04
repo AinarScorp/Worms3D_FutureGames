@@ -14,8 +14,10 @@ namespace WormsGame.Movement
         [SerializeField] float groundedRadius = 0.5f;
         [SerializeField] LayerMask _groundLayers;
         
-        InputHandler _inputHandler;
         float _verticalVelocity;
+        
+        //cached
+        InputHandler _inputHandler;
 
         void Awake()
         {
@@ -29,10 +31,7 @@ namespace WormsGame.Movement
 
         public Vector3 GetVerticalVelocity()
         {
-            //Vector3 verticalVelocityVector = new Vector3(0.0f, _verticalVelocity, 0.0f);
-            //_characterController.Move(verticalVelocityVector * Time.deltaTime);
             return new Vector3(0.0f, _verticalVelocity, 0.0f);
-
         }
 
         void ChangeVelocityByGravity()

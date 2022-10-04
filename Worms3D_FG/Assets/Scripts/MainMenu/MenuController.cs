@@ -17,11 +17,15 @@ namespace WormsGame.MainMenu
         [SerializeField] int _maxPlayerCount = 4;
         [SerializeField] int _minPlayerCount = 2;
         
+        int _activePlayers;
         
         List<UnitOptions> _activeUnitOptions = new List<UnitOptions>();
-        int _activePlayers;
+
+        #region Properties
 
         public List<UnitOptions> ActiveUnitOptions => _activeUnitOptions;
+
+        #endregion
 
         void Start()
         {

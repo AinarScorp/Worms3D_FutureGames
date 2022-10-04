@@ -11,6 +11,7 @@ namespace WormsGame.Core
     {
         [SerializeField] UnitHealthBar unitHealthBar;
         [SerializeField] TeamHealthBar _teamHealthPrefab;
+        [SerializeField] Transform _unitsHealthContainer;
         [SerializeField] Transform _teamHealthContainer;
         [SerializeField] float _shwoingTeamsHealthTime = 2.0f;
 
@@ -22,8 +23,9 @@ namespace WormsGame.Core
         {
             Unit.UnitSpawned += AddHealthBar;
             TurnHandler turnHandler = FindObjectOfType<TurnHandler>();
-            turnHandler.TeamCreated += AddTeamHealthBar;
             turnHandler.TurnFinished += DisplayTeamsHealthWhenTurnEnded;
+            TeamsHandler teamsHandler = FindObjectOfType<TeamsHandler>();
+            teamsHandler.TeamCreated += AddTeamHealthBar;
         }
 
         void Start()
@@ -39,7 +41,7 @@ namespace WormsGame.Core
 
         void AddHealthBar(Unit unit)
         {
-            UnitHealthBar newUnitHealthBar = Instantiate(unitHealthBar, transform);
+            UnitHealthBar newUnitHealthBar = Instantiate(unitHealthBar, _unitsHealthContainer);
             newUnitHealthBar.SetupHealthBar(unit);
         }
 
