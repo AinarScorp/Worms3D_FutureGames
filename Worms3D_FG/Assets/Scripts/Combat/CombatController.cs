@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using WormsGame.Core;
 using WormsGame.Inputs;
 
 namespace WormsGame.Combat
@@ -23,12 +24,13 @@ namespace WormsGame.Combat
         Image _chargeBar;
         
         InputHandler _inputHandler;
-
+        TurnHandler _turnHandler;
         public Weapon CurrentWeapon => _currentWeapon;
 
         void Awake()
         {
             _inputHandler = GetComponent<InputHandler>();
+            _turnHandler = FindObjectOfType<TurnHandler>();
 
             _inputHandler.SubscribeToActivation(()=>this.enabled = true, true);
             _inputHandler.SubscribeToActivation(()=>this.enabled = false, false);
@@ -40,7 +42,8 @@ namespace WormsGame.Combat
             _hasShot = false;
             _chargeBar.fillAmount = 0;
         }
-        
+        //clean here, make named functions, then make it contact turnhandler and finish its turn instead of turnhandler contacting
+        //weapon doing it
         void Update()
         {
             if (_currentWeapon ==null) return;
@@ -49,45 +52,48 @@ namespace WormsGame.Combat
             {
                 _hasShot = true;
                 _weaponIsChargable = _currentWeapon is LaunchableWeapon;
-                
                 _launchForce = _minLaunchForce;
-                //GetComponent<PlayerController>().enabled = false;
-                //_currentWeapon.Fire(_projectileSpawnPoint.position,  _launchForce,direction);
+
             }
             if (!_hasShot) return;
 
             if (!_weaponIsChargable)
             {
-                Vector3 direction = _projectileSpawnPoint.rotation * Vector3.forward;
-
-                _currentWeapon.Fire(_projectileSpawnPoint.position,_projectileSpawnPoint.forward);
-                DestroyCurrentWeapon();
-                this.enabled = false;
+                FireAndEndTurn(_weaponIsChargable);
                 return;
             }
-
- 
             if (_inputHandler.ShootInput && _launchForce < _maxLaunchForce)
             {
-                _launchForce +=  chargeSpeed *Time.deltaTime;
-                if (_launchForce > _maxLaunchForce)
-                    _launchForce = _maxLaunchForce;
                 FillChargeBar();
             }
             else
-            {                
-
-                Vector3 direction = _projectileSpawnPoint.rotation * Vector3.forward;
-                _currentWeapon.Fire(_projectileSpawnPoint.position,  _launchForce,_projectileSpawnPoint.forward);
-                DestroyCurrentWeapon();
-                this.enabled = false;
-
+            {
+                FireAndEndTurn(_weaponIsChargable);
             }
 
         }
 
+        void FireAndEndTurn(bool weaponIsChargable)
+        {
+            if (!weaponIsChargable)
+            { 
+                _currentWeapon.Fire(_projectileSpawnPoint.position, _projectileSpawnPoint.forward);
+            }
+            else
+            {
+                _currentWeapon.Fire(_projectileSpawnPoint.position,  _launchForce,_projectileSpawnPoint.forward);
+            }
+            DestroyCurrentWeapon();
+            _turnHandler.FinishTurn();
+            this.enabled = false;
+        }
+        
         void FillChargeBar()
         {
+            _launchForce +=  chargeSpeed *Time.deltaTime;
+            if (_launchForce > _maxLaunchForce)
+                _launchForce = _maxLaunchForce;
+            
             _chargeBar.fillAmount = _launchForce / _maxLaunchForce;
         }
 

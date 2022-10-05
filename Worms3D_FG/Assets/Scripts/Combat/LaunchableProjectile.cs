@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using WormsGame.Units;
 
@@ -38,21 +39,21 @@ namespace WormsGame.Combat
             _rigidbody.AddForce(vericalVelocity, ForceMode.VelocityChange);
         }
 
-        public override void SetupProjectile(Vector3 newDirection, Weapon weapon, float launchForce)
+        public override void SetupProjectile(GameObject thisUnit,Vector3 newDirection, Weapon weapon, float launchForce)
         {
-            base.SetupProjectile(newDirection, weapon, launchForce);
+            base.SetupProjectile(thisUnit,newDirection, weapon, launchForce);
             _weapon = (LaunchableWeapon)weapon;
         }
 
-
-
+        
         void OnCollisionEnter(Collision collision)
         {
             if ((_collisionMask.value & (1 << collision.collider.transform.gameObject.layer)) > 0)
             {
                 //I do this check to make sure it doesn't collide with the one that has shot the projectile
-                Unit currentUnit = collision.collider.GetComponent<Unit>();
-                if (currentUnit !=null && currentUnit.UnitIsAcive) return;
+                
+                Unit hitUnit = collision.collider.GetComponent<Unit>();
+                if (hitUnit!=null && _thisUnitHasShot == hitUnit.gameObject) return;
                 _exlosionPoint = transform.position;
                 Explode();
                 //Debug.Log("Hit with Layermask");
@@ -96,7 +97,6 @@ namespace WormsGame.Combat
             //this checks if there's a wall in between and if yes it will reduce radius check
             if (Physics.Raycast(_exlosionPoint, directionToTarget,out testHit,_explosionRadius,_obstuctionLayerMask.value))
             {
-                print($"{transform.position} + {targetUnit.name} + collider: {testHit.collider.name}");
                 wasObstucted = true;
             }
 

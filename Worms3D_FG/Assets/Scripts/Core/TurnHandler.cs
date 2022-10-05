@@ -22,6 +22,7 @@ namespace WormsGame.Core
         TeamsHandler _teamsHandler;
         //Events
         public event Action TurnFinished;
+        public event Action TurnStarted;
         public event Action<Unit> UnitChanged;
 
         #region Properties
@@ -35,14 +36,14 @@ namespace WormsGame.Core
 
         void Awake()
         {
-            Weapon.HasFired += FinishTurn;
+            //Weapon.HasFired += FinishTurn;
             _teamsHandler = FindObjectOfType<TeamsHandler>();
         }
 
-        void OnDestroy()
-        {
-            Weapon.HasFired -= FinishTurn;
-        }
+        // void OnDestroy()
+        // {
+        //     Weapon.HasFired -= FinishTurn;
+        // }
 
         public void ActivateRandomTeam()
         {
@@ -56,6 +57,7 @@ namespace WormsGame.Core
             int rnd = Random.Range(0, AllTeams.Count);
 
             _currentTeamTurn = AllTeams[rnd];
+            TurnStarted?.Invoke();
             ActivateTeamMember(0);
         }
         void ActivateTeamMember(int unitToActivate)
@@ -88,16 +90,35 @@ namespace WormsGame.Core
             return index;
         }
 
+        public void TimeIsUp()
+        {
+            if (_currentUnit != null)
+                _currentUnit.ToggleActivation(false);
+            FinishTurn();
+        }
         public void FinishTurn()
         {
             TurnFinished?.Invoke();
             StartCoroutine(FinishingTurn());
         }
+
+        
+        
         public IEnumerator FinishingTurn()
         {
             _hasFired = true;
             yield return new WaitForSeconds(5);
             
+            SelectNextTeam();
+            int index = GetUnitIndex(_currentUnitIndex + 1);
+
+            ActivateTeamMember(index);
+            TurnStarted?.Invoke();
+
+        }
+
+        void SelectNextTeam()
+        {
             int currentTeamIndex = -1;
             foreach (var team in AllTeams)
             {
@@ -108,18 +129,15 @@ namespace WormsGame.Core
                 }
             }
 
-            if (currentTeamIndex <0)
+            if (currentTeamIndex < 0)
                 Debug.LogWarning("Please report");
-            
+
 
             currentTeamIndex++;
-            if (currentTeamIndex >=AllTeams.Count)
+            if (currentTeamIndex >= AllTeams.Count)
                 currentTeamIndex = 0;
-            
-            _currentTeamTurn = AllTeams[currentTeamIndex];
-            int index = GetUnitIndex(_currentUnitIndex + 1);
 
-            ActivateTeamMember(index);
+            _currentTeamTurn = AllTeams[currentTeamIndex];
         }
 
         #region InputSystem

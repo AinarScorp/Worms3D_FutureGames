@@ -13,6 +13,7 @@ namespace WormsGame.Combat
         [SerializeField] protected float _gravity = -10;
         [SerializeField] protected ParticleSystem _explosionParticle;
 
+        protected GameObject _thisUnitHasShot;
         protected Rigidbody _rigidbody;
         
         float _launchForce;
@@ -23,8 +24,9 @@ namespace WormsGame.Combat
             _rigidbody = GetComponent<Rigidbody>();
         }
         
-        public virtual void SetupProjectile(Vector3 newDirection, Weapon weapon, float launchForce)
+        public virtual void SetupProjectile(GameObject thisUnit,Vector3 newDirection, Weapon weapon, float launchForce)
         {
+            _thisUnitHasShot = thisUnit;
             _direction = newDirection;
             _launchForce = launchForce;
             _rigidbody.velocity = _direction * _launchForce;

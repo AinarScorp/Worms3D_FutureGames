@@ -24,24 +24,25 @@ namespace WormsGame.Units
         [SerializeField] TeamAlliance _alliance;
         [SerializeField] float _deathDelay = 2.0f;
         
-        bool _unitIsAcive;
         int _currentHealth = 0;
         
         //cached
         InputHandler _inputHandler;
         ImpactKnockback _impactKnockback;
         CombatController _combatController;
+        PlayerController _playerController;
         
         public event Action<Unit> Dying;
         public event Action<int, int> HealthModifed; //pass start health and modifiedHealth
 
         #region Properties
-        public bool UnitIsAcive => _unitIsAcive;
         public int CurrentHealth => _currentHealth;
         public TeamAlliance Alliance => _alliance;
         public Color TeamColor => _teamColor;
         public InputHandler InputHandler => _inputHandler;
         public CombatController CombatController => _combatController;
+
+        public PlayerController PlayerController => _playerController;
 
         #endregion
 
@@ -50,8 +51,8 @@ namespace WormsGame.Units
             _combatController = GetComponent<CombatController>();
             _impactKnockback = GetComponent<ImpactKnockback>();
             _inputHandler = GetComponent<InputHandler>();
-            _inputHandler.SubscribeToActivation(() => _unitIsAcive = true,true);
-            _inputHandler.SubscribeToActivation(() => _unitIsAcive = false,false);
+            _playerController = GetComponent<PlayerController>();
+
         }
 
         void OnEnable()

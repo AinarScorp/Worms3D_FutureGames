@@ -24,7 +24,7 @@ namespace WormsGame.Combat
             if (projectilePrefab == null) return;
             
             Projectile projectile = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
-            projectile.SetupProjectile(direction, this, launchForce);
+            projectile.SetupProjectile(_thisUnit.gameObject,direction, this, launchForce);
         }
     }
     

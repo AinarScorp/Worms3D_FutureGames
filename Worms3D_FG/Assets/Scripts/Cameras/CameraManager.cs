@@ -2,7 +2,6 @@ using System;
 using UnityEngine;
 using Cinemachine;
 using WormsGame.Core;
-using WormsGame.Movement;
 using WormsGame.Units;
 
 namespace WormsGame.Cameras
@@ -12,9 +11,7 @@ namespace WormsGame.Cameras
         [SerializeField] CinemachineVirtualCamera firstPersonCamera;
         [SerializeField] CinemachineVirtualCamera thirdPersonCamera;
         [SerializeField] GameObject _crossFire;
-        
-        PlayerController _currentUnit;
-
+        Unit _currentUnit;
 
         void Awake()
         {
@@ -49,25 +46,24 @@ namespace WormsGame.Cameras
         {
             if (setFirstPersonCamera)
             {
-                _currentUnit.MatchCameras();
+                _currentUnit.PlayerController.MatchCameras();
                 
             }
             firstPersonCamera.enabled = setFirstPersonCamera;
             _crossFire.SetActive(setFirstPersonCamera);
             thirdPersonCamera.enabled = !setFirstPersonCamera;
-            _currentUnit.SetRotateOnMove(firstPersonCamera.enabled);
+            _currentUnit.PlayerController.SetRotateOnMove(firstPersonCamera.enabled);
 
         }
 
         public void FocusOnCurrentPlayer(Unit unit)
         {
-            unit.TryGetComponent(out PlayerController currentPlayer);
-            if (currentPlayer == null) return;
+            if (unit == null) return;
             firstPersonCamera.enabled = false;
             thirdPersonCamera.enabled = true;
-            firstPersonCamera.Follow = currentPlayer.FirstPersonCamTarget;
-            thirdPersonCamera.Follow = currentPlayer.ThirdPersonCamTarget;
-            this._currentUnit = currentPlayer;
+            firstPersonCamera.Follow = unit.PlayerController.FirstPersonCamTarget;
+            thirdPersonCamera.Follow = unit.PlayerController.ThirdPersonCamTarget;
+            this._currentUnit = unit;
         }
     }
 }

@@ -23,12 +23,19 @@ namespace WormsGame.UI
             {
                 unit.HealthModifed += UpdateTeamHealth;
             }
+
+            FindObjectOfType<TeamsHandler>().TeamRemoved += RemoveThisBar;
         }
 
         public void UpdateTeamHealth(int unitStartHealth, int unitModifiedHealth)
         {
             displayHealthImage.fillAmount =
                 (float)_thisTeam.GetTeamCurrentHealth() / (float)_healthBarController.LargestTeamHealth;
+        }
+
+        void RemoveThisBar()
+        {
+            Destroy(this.gameObject);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace WormsGame.Inventory
 
         void Awake()
         {
-            _turnHandler = FindObjectOfType<TurnHandler>(_turnHandler);
+            _turnHandler = FindObjectOfType<TurnHandler>();
         }
 
         public void ChooseNewWeapon(Weapon newWeapon)
