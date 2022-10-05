@@ -10,7 +10,7 @@ namespace WormsGame.Units
     {
         public event Action<TeamInfo> TeamCreated;
         public event Action TeamRemoved;
-
+        public event Action AllTeamsCreated;
 
         List<TeamInfo> _allTeams = new List<TeamInfo>();
 
@@ -42,8 +42,8 @@ namespace WormsGame.Units
                 team.StoreTeamHealthCombined();
                 TeamCreated?.Invoke(team);
             }
-
-            FindObjectOfType<TurnHandler>().ActivateRandomTeam();
+            AllTeamsCreated?.Invoke();
+            //FindObjectOfType<TurnHandler>().ActivateRandomTeam();
         }
 
         void AddToTeamsList(Unit unit)

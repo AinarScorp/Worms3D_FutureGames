@@ -13,6 +13,8 @@ namespace WormsGame.Core
 {
     public class TurnHandler : MonoBehaviour
     {
+        [SerializeField] float _changingTeamCooldown = 5.0f;
+
         bool _hasFired;
         
         int _currentUnitIndex;
@@ -38,12 +40,13 @@ namespace WormsGame.Core
         {
             //Weapon.HasFired += FinishTurn;
             _teamsHandler = FindObjectOfType<TeamsHandler>();
+            _teamsHandler.AllTeamsCreated += ActivateRandomTeam;
         }
-
-        // void OnDestroy()
-        // {
-        //     Weapon.HasFired -= FinishTurn;
-        // }
+        
+        void OnDestroy()
+        {
+            _teamsHandler.AllTeamsCreated -= ActivateRandomTeam;
+        }
 
         public void ActivateRandomTeam()
         {
@@ -102,12 +105,11 @@ namespace WormsGame.Core
             StartCoroutine(FinishingTurn());
         }
 
-        
-        
+
         public IEnumerator FinishingTurn()
         {
             _hasFired = true;
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(_changingTeamCooldown);
             
             SelectNextTeam();
             int index = GetUnitIndex(_currentUnitIndex + 1);

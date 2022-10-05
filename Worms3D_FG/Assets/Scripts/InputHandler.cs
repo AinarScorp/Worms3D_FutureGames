@@ -17,12 +17,10 @@ namespace WormsGame.Inputs
         #endregion
 
         #region Properties
-
         public Vector2 MovementInputs => _movementInputs;
         public Vector2 LookInput => _lookInput;
         public bool JumpInput => _jumpInput;
         public bool IsAiming => _isAiming;
-
         public bool ShootInput => _shootInput;
 
         #endregion
@@ -30,7 +28,7 @@ namespace WormsGame.Inputs
         Action InputsEnabled;
         Action InputsDisabled;
 
-        
+
         #region Setup
 
         void Awake() => _playerInputs = new PlayerInputs();
