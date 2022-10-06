@@ -15,16 +15,14 @@ namespace WormsGame.Combat
 
         public int MaxDamage => _maxDamage;
         public int MinDamage => _minDamage;
-
-
-
+        
         public override void Fire(Vector3 spawnPos, float launchForce, Vector3 direction)
         {
             base.Fire(spawnPos, launchForce,direction);
             if (projectilePrefab == null) return;
-            
+            WeaponInfo weaponInfo = new WeaponInfo(_minDamage, _maxDamage, pushForce);
             Projectile projectile = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
-            projectile.SetupProjectile(_thisUnit.gameObject,direction, this, launchForce);
+            projectile.SetupProjectile(_gameObjectToIgnore,direction, weaponInfo, launchForce);
         }
     }
     

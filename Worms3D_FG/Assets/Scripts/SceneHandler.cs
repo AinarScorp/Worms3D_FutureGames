@@ -9,18 +9,13 @@ namespace WormsGame.SceneManagement
         public void LoadNextScene()
         {
             int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
-            StartCoroutine(LoadScene(nextSceneIndex));
+            SceneManager.LoadScene(nextSceneIndex);
         }
         public void LoadFirstScene()
         {
-            StartCoroutine(LoadScene(0));
+            SceneManager.LoadScene(0);
+        }
 
-        }
-        IEnumerator LoadScene(int sceneIndex)
-        {
-            yield return null;
-            SceneManager.LoadScene(sceneIndex);
-        }
         public void QuitGame()
         {
             Application.Quit();

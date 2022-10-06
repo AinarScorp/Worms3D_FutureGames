@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
-
-using WormsGame.Combat;
 using WormsGame.Units;
 
 //TO DO What happens if a certain team does not exist and you try to activate 0th plater? look into activateTeamMember function
@@ -58,7 +56,6 @@ namespace WormsGame.Core
             }
             
             int rnd = Random.Range(0, AllTeams.Count);
-
             _currentTeamTurn = AllTeams[rnd];
             TurnStarted?.Invoke();
             ActivateTeamMember(0);

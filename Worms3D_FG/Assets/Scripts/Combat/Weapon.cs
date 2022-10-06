@@ -3,24 +3,39 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
+
 namespace WormsGame.Combat
-{    
+{        
+    public struct WeaponInfo
+    {
+        float _minDamage, _maxDamage, _pushForce;
+        
+        public float MinDamage => _minDamage;
+        public float MaxDamage => _maxDamage;
+        public float PushForce => _pushForce;
+        
+        public WeaponInfo(float minDamage, float maxDamage, float pushForce)
+        {
+            _minDamage = minDamage;
+            _maxDamage = maxDamage;
+            _pushForce = pushForce;
+        }
+    }
+    
     public abstract class  Weapon : ScriptableObject
     {
         [SerializeField] GameObject _weaponPrefab;
         [SerializeField] protected float pushForce = 0.1f;
 
-        protected CombatController _thisUnit;
+        protected GameObject _gameObjectToIgnore;
         Transform _handTransform;
         const string WEAPON_NAME = "Weapon";
-        //public static event Action HasFired;
 
-        public float PushForce => pushForce;
 
-        public void SpawnWeapon(Transform handTransform)
+        public void SpawnWeapon(Transform handTransform, GameObject gameObjectToIgonre)
         {
             _handTransform = handTransform;
-            _thisUnit = handTransform.GetComponentInParent<CombatController>();
+            _gameObjectToIgnore = gameObjectToIgonre;
             DestroyOldWeapon();
             if (_weaponPrefab !=null)
             {

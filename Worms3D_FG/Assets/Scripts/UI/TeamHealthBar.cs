@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using WormsGame.Core;
 using WormsGame.Units;
 
 namespace WormsGame.UI
@@ -10,14 +9,13 @@ namespace WormsGame.UI
     public class TeamHealthBar : MonoBehaviour
     {
         [SerializeField] Image displayHealthImage;
-
+        int _largestTeamHealth;
+        
         TeamInfo _thisTeam;
-        HealthBarController _healthBarController;
-
-        public void SetupHealthBar(HealthBarController healthBarController, TeamInfo thisTeam)
+        
+        public void SetupHealthBar(TeamInfo thisTeam)
         {
             _thisTeam = thisTeam;
-            _healthBarController = healthBarController;
             displayHealthImage.color = _thisTeam.AvailableUnits[0].TeamColor;
             foreach (var unit in _thisTeam.AvailableUnits)
             {
@@ -27,10 +25,15 @@ namespace WormsGame.UI
             FindObjectOfType<TeamsHandler>().TeamRemoved += RemoveThisBar;
         }
 
+        public void AssignLargestHealth(int largestTeamHealth)
+        {
+            _largestTeamHealth = largestTeamHealth;
+        }
+
         public void UpdateTeamHealth(int unitStartHealth, int unitModifiedHealth)
         {
             displayHealthImage.fillAmount =
-                (float)_thisTeam.GetTeamCurrentHealth() / (float)_healthBarController.LargestTeamHealth;
+                (float)_thisTeam.GetTeamCurrentHealth() / (float)_largestTeamHealth;
         }
 
         void RemoveThisBar()

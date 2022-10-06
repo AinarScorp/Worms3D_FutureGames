@@ -32,6 +32,13 @@ namespace WormsGame.MainMenu
             if (!canStart) return;
 
 
+            PassInSettings(_activeUnitOptions);
+            
+            _menuController.StartTheGame();
+        }
+
+        void PassInSettings(List<UnitOptions> _activeUnitOptions)
+        {
             foreach (var _activeUnitOption in _activeUnitOptions)
             {
                 switch (_activeUnitOption.SelectedAlliance)
@@ -43,19 +50,17 @@ namespace WormsGame.MainMenu
                     case TeamAlliance.Slimes:
                         TeamsStartingHealth.SlimesStartHealth = _activeUnitOption.SelectedHealth;
                         UnitSpawner.SlimeUnitCount = _activeUnitOption.SelectedUnitCount;
-                        break;                
+                        break;
                     case TeamAlliance.Rabbits:
                         TeamsStartingHealth.RabbitsStartHealth = _activeUnitOption.SelectedHealth;
                         UnitSpawner.RabbitUnitCount = _activeUnitOption.SelectedUnitCount;
-                        break;                
+                        break;
                     case TeamAlliance.Ghosts:
                         TeamsStartingHealth.GhostsStartHealth = _activeUnitOption.SelectedHealth;
                         UnitSpawner.GhostUnitCount = _activeUnitOption.SelectedUnitCount;
                         break;
                 }
-                
             }
-            _menuController.StartTheGame();
         }
     }
 }

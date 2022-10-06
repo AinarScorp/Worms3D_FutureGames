@@ -14,7 +14,8 @@ namespace WormsGame.Combat
         bool hasCollided;
         Vector3 _exlosionPoint;
         
-        LaunchableWeapon _weapon;
+        //LaunchableWeapon _weapon;
+        WeaponInfo _weaponInfo;
         void Start()
         {
             SetParticleRadius();
@@ -39,10 +40,11 @@ namespace WormsGame.Combat
             _rigidbody.AddForce(vericalVelocity, ForceMode.VelocityChange);
         }
 
-        public override void SetupProjectile(GameObject thisUnit,Vector3 newDirection, Weapon weapon, float launchForce)
+        public override void SetupProjectile(GameObject thisUnit,Vector3 newDirection, WeaponInfo weaponInfo, float launchForce)
         {
-            base.SetupProjectile(thisUnit,newDirection, weapon, launchForce);
-            _weapon = (LaunchableWeapon)weapon;
+            base.SetupProjectile(thisUnit,newDirection, weaponInfo, launchForce);
+            _weaponInfo = weaponInfo;
+            //_weapon = (LaunchableWeapon)weapon;
         }
 
         
@@ -79,7 +81,7 @@ namespace WormsGame.Combat
                     Vector3 direction = unit.transform.position - _exlosionPoint;
                     int damage = DamageFromExplosion(unit);
                     unit.ModifyHealth(-damage);
-                    unit.Push(direction, _weapon.PushForce * damage);
+                    unit.Push(direction, _weaponInfo.PushForce * damage);
 
                 }
             }
@@ -105,7 +107,7 @@ namespace WormsGame.Combat
             {
                 float distanceToTarget = Vector3.Distance(_exlosionPoint, hit.point);
                 
-                int receivedDamage = Mathf.FloorToInt(Mathf.Lerp(_weapon.MaxDamage, _weapon.MinDamage, distanceToTarget / _explosionRadius));
+                int receivedDamage = Mathf.FloorToInt(Mathf.Lerp(_weaponInfo.MaxDamage, _weaponInfo.MinDamage, distanceToTarget / _explosionRadius));
                 //Debug.DrawLine(_exlosionPoint,  _exlosionPoint+ directionToTarget * distanceToTarget,Color.blue, 50f);
                 //print($"{transform.position} + {targetUnit.name} + collider: {hit.collider.name}");
                 return receivedDamage;

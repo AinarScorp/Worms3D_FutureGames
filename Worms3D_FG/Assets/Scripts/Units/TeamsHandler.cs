@@ -10,8 +10,9 @@ namespace WormsGame.Units
     {
         public event Action<TeamInfo> TeamCreated;
         public event Action TeamRemoved;
-        public event Action AllTeamsCreated;
-
+        public event Action AllTeamsCreated; // deactivated for now
+        
+        //Action AllTeamsCreated;
         List<TeamInfo> _allTeams = new List<TeamInfo>();
 
         #region Properties
@@ -43,8 +44,8 @@ namespace WormsGame.Units
                 TeamCreated?.Invoke(team);
             }
             AllTeamsCreated?.Invoke();
-            //FindObjectOfType<TurnHandler>().ActivateRandomTeam();
         }
+
 
         void AddToTeamsList(Unit unit)
         {

@@ -1,11 +1,11 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using WormsGame.UI;
+using WormsGame.Core;
 using WormsGame.Units;
 
-namespace WormsGame.Core
+namespace WormsGame.UI
 {
     public class HealthBarController : MonoBehaviour
     {
@@ -15,9 +15,10 @@ namespace WormsGame.Core
         [SerializeField] Transform _teamHealthContainer;
         [SerializeField] float _shwoingTeamsHealthTime = 2.0f;
 
+
+        List<TeamHealthBar> _createdTeamHealthBars = new List<TeamHealthBar>();
         int _largestTeamHealth;
 
-        public int LargestTeamHealth => _largestTeamHealth;
 
         void Awake()
         {
@@ -25,7 +26,8 @@ namespace WormsGame.Core
             TurnHandler turnHandler = FindObjectOfType<TurnHandler>();
             turnHandler.TurnFinished += DisplayTeamsHealthWhenTurnEnded;
             TeamsHandler teamsHandler = FindObjectOfType<TeamsHandler>();
-            teamsHandler.TeamCreated += AddTeamHealthBar;
+            teamsHandler.TeamCreated += AdjustLargestHealth;
+            teamsHandler.AllTeamsCreated += CreateTeamBars;
         }
 
         void Start()
@@ -45,15 +47,25 @@ namespace WormsGame.Core
             newUnitHealthBar.SetupHealthBar(unit);
         }
 
-        void AddTeamHealthBar(TeamInfo team)
+        void AdjustLargestHealth(TeamInfo team) // change name
         {
             TeamHealthBar teamHealthbar = Instantiate(_teamHealthPrefab, _teamHealthContainer);
+            _createdTeamHealthBars.Add(teamHealthbar);
             if (_largestTeamHealth < team.TeamsFullHealth)
             {
                 _largestTeamHealth = team.TeamsFullHealth;
             }
+            
+            teamHealthbar.SetupHealthBar(team);
+        }
 
-            teamHealthbar.SetupHealthBar(this, team);
+        void CreateTeamBars()
+        {
+            foreach (var teamHealthBar in _createdTeamHealthBars)
+            {
+                teamHealthBar.AssignLargestHealth(_largestTeamHealth);
+            }
+
         }
         void ToggleTeamHealth(bool activate)
         {

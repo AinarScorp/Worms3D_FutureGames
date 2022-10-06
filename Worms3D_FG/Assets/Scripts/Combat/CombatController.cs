@@ -100,7 +100,7 @@ namespace WormsGame.Combat
         public void AssignNewWeapon(Weapon newWeapon)
         {
             this.enabled = true;
-            newWeapon.SpawnWeapon(_handTransform);
+            newWeapon.SpawnWeapon(_handTransform, this.gameObject);
             _currentWeapon = newWeapon;
         }
 

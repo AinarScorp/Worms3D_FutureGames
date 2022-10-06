@@ -252,6 +252,34 @@ namespace WormsGame.Inputs
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Other"",
+            ""id"": ""96f02072-7e1e-499b-a7c7-e7699aad909a"",
+            ""actions"": [
+                {
+                    ""name"": ""Escape"",
+                    ""type"": ""Button"",
+                    ""id"": ""316c8490-0383-410e-b39d-ae58aa6fa194"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""9558a449-f585-4798-b24e-2eb58f14ce14"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Escape"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -270,6 +298,9 @@ namespace WormsGame.Inputs
             // Inventory
             m_Inventory = asset.FindActionMap("Inventory", throwIfNotFound: true);
             m_Inventory_OpenInventory = m_Inventory.FindAction("OpenInventory", throwIfNotFound: true);
+            // Other
+            m_Other = asset.FindActionMap("Other", throwIfNotFound: true);
+            m_Other_Escape = m_Other.FindAction("Escape", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -464,6 +495,39 @@ namespace WormsGame.Inputs
             }
         }
         public InventoryActions @Inventory => new InventoryActions(this);
+
+        // Other
+        private readonly InputActionMap m_Other;
+        private IOtherActions m_OtherActionsCallbackInterface;
+        private readonly InputAction m_Other_Escape;
+        public struct OtherActions
+        {
+            private @PlayerInputs m_Wrapper;
+            public OtherActions(@PlayerInputs wrapper) { m_Wrapper = wrapper; }
+            public InputAction @Escape => m_Wrapper.m_Other_Escape;
+            public InputActionMap Get() { return m_Wrapper.m_Other; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
+            public bool enabled => Get().enabled;
+            public static implicit operator InputActionMap(OtherActions set) { return set.Get(); }
+            public void SetCallbacks(IOtherActions instance)
+            {
+                if (m_Wrapper.m_OtherActionsCallbackInterface != null)
+                {
+                    @Escape.started -= m_Wrapper.m_OtherActionsCallbackInterface.OnEscape;
+                    @Escape.performed -= m_Wrapper.m_OtherActionsCallbackInterface.OnEscape;
+                    @Escape.canceled -= m_Wrapper.m_OtherActionsCallbackInterface.OnEscape;
+                }
+                m_Wrapper.m_OtherActionsCallbackInterface = instance;
+                if (instance != null)
+                {
+                    @Escape.started += instance.OnEscape;
+                    @Escape.performed += instance.OnEscape;
+                    @Escape.canceled += instance.OnEscape;
+                }
+            }
+        }
+        public OtherActions @Other => new OtherActions(this);
         public interface IMainActions
         {
             void OnMove(InputAction.CallbackContext context);
@@ -480,6 +544,10 @@ namespace WormsGame.Inputs
         public interface IInventoryActions
         {
             void OnOpenInventory(InputAction.CallbackContext context);
+        }
+        public interface IOtherActions
+        {
+            void OnEscape(InputAction.CallbackContext context);
         }
     }
 }

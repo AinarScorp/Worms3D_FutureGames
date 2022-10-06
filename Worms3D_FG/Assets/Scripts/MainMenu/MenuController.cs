@@ -1,8 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using WormsGame.SceneManagement;
+using WormsGame.UI;
+
+
 
 namespace WormsGame.MainMenu
 {
@@ -20,6 +24,7 @@ namespace WormsGame.MainMenu
         int _activePlayers;
         
         List<UnitOptions> _activeUnitOptions = new List<UnitOptions>();
+        TransitionController _transitionController;
 
         #region Properties
 
@@ -27,11 +32,21 @@ namespace WormsGame.MainMenu
 
         #endregion
 
+        void Awake()
+        {
+            _transitionController = FindObjectOfType<TransitionController>();
+        }
+
         void Start()
         {
+            OpenTheGame();
             SetupUnitOptions();
         }
 
+        void OpenTheGame()
+        {
+            _transitionController.TriggerSceneOpening();
+        }
         void SetupUnitOptions()
         {
             _activePlayers = _minPlayerCount;
@@ -71,7 +86,8 @@ namespace WormsGame.MainMenu
 
         public void StartTheGame()
         {
-            _sceneHandler.LoadNextScene();
+            _transitionController.TriggerSceneCloser();
+            _transitionController.SceneHasClosed += _sceneHandler.LoadNextScene;
         }
         public void SwitchSections(SwitchSectionBtn switchBtn)
         {
