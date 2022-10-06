@@ -36,9 +36,13 @@ namespace WormsGame.UI
                 (float)_thisTeam.GetTeamCurrentHealth() / (float)_largestTeamHealth;
         }
 
-        void RemoveThisBar()
+        void RemoveThisBar(TeamInfo removedTeam)
         {
+            if (removedTeam != _thisTeam) return;
+            
             Destroy(this.gameObject);
+                
+            
         }
     }
 }

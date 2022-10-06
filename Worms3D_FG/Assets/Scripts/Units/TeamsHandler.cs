@@ -9,9 +9,11 @@ namespace WormsGame.Units
     public class TeamsHandler : MonoBehaviour
     {
         public event Action<TeamInfo> TeamCreated;
-        public event Action TeamRemoved;
-        public event Action AllTeamsCreated; // deactivated for now
+        public event Action<TeamInfo> TeamRemoved;
         
+        public event Action AllTeamsCreated; // deactivated for now
+
+        Action OneTeamRemaining;
         //Action AllTeamsCreated;
         List<TeamInfo> _allTeams = new List<TeamInfo>();
 
@@ -29,7 +31,7 @@ namespace WormsGame.Units
             {
                 if (unit == null)
                 {
-                    Debug.Log("Check this part");
+                    Debug.LogError("Check this part");
                     return;
                 }
 
@@ -95,7 +97,15 @@ namespace WormsGame.Units
 
             _allTeams.Remove(belongingTeam);
 
-            TeamRemoved?.Invoke();
+            TeamRemoved?.Invoke(belongingTeam);
+            if (_allTeams.Count >1) return;
+
+            OneTeamRemaining();
+        }
+
+        public void InitOnlyOneReamRemaining(Action callback)
+        {
+            OneTeamRemaining = callback;
         }
     }
 }

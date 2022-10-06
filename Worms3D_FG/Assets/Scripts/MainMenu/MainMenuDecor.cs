@@ -8,10 +8,10 @@ namespace WormsGame.MainMenu
 {
     public class MainMenuDecor : MonoBehaviour
     {
-        TransitionController _transitionController;
         [SerializeField] Animator _boysAnimator;
         [SerializeField] string _boysUpTriggerString, _boysDownTriggerString;
 
+        TransitionController _transitionController;
         void Awake()
         {
             _transitionController = FindObjectOfType<TransitionController>();

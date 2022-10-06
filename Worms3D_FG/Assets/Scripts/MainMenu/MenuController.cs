@@ -13,6 +13,11 @@ namespace WormsGame.MainMenu
     public class MenuController : MonoBehaviour
     {
         //taking from startGamebtn.cs
+        [Header("PopUpMessages")]
+        [SerializeField][TextArea] string _addedTooManyPlayers = "I forgot to put it";
+        [SerializeField][TextArea] string _removedTooManyPlayers = "I forgot to put it";
+        [SerializeField] float _messageLength = 3.0f;
+        
         [Header("Hooking up")]
         [SerializeField] UnitOptions[] _unitOptions;
         [SerializeField] SceneHandler _sceneHandler;
@@ -65,8 +70,11 @@ namespace WormsGame.MainMenu
         {
             
             _activePlayers++;
-            if (_activePlayers>_maxPlayerCount)
+            if (_activePlayers > _maxPlayerCount)
+            {
                 _activePlayers = _maxPlayerCount;
+                PopUpMessage.Instance.DisplayPopUpMessage(_addedTooManyPlayers,_messageLength);
+            }
             
             if (!_activeUnitOptions.Contains(_unitOptions[_activePlayers-1]))
                 _activeUnitOptions.Add(_unitOptions[_activePlayers-1]);
@@ -77,8 +85,13 @@ namespace WormsGame.MainMenu
         {
 
             _activePlayers--;
-            if (_activePlayers<_minPlayerCount)
+            if (_activePlayers < _minPlayerCount)
+            {
                 _activePlayers = _minPlayerCount;
+                PopUpMessage.Instance.DisplayPopUpMessage(_removedTooManyPlayers,_messageLength);
+
+            }
+            
             _activeUnitOptions.Remove(_unitOptions[_activePlayers]);
             _unitOptions[_activePlayers].gameObject.SetActive(false);
         }

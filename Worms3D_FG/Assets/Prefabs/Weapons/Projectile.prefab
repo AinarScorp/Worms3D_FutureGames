@@ -79,7 +79,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _collisionMask:
     serializedVersion: 2
-    m_Bits: 65
+    m_Bits: 73
   _gravity: 8
   _explosionParticle: {fileID: 209338980640882467, guid: fb6fcc724f6d12048877571355a26cb3,
     type: 3}

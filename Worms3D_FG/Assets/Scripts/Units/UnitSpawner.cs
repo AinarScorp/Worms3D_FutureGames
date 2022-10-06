@@ -6,6 +6,7 @@ namespace WormsGame.Units
 {
     public class UnitSpawner : MonoBehaviour
     {
+        //not the best way to do it, but just wanted to practice
         public static int BatUnitCount = -1;
         public static int SlimeUnitCount = -1;
         public static int RabbitUnitCount = -1;

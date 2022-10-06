@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using WormsGame.UI;
 using WormsGame.Units;
 
 namespace WormsGame.MainMenu
@@ -22,8 +23,11 @@ namespace WormsGame.MainMenu
         [SerializeField] int _healthIncerements = 50;
         [SerializeField] int _maxHealth = 500;
         [SerializeField] TextMeshProUGUI _displayHealthText;
-        
-        [Header("Shake options")]
+
+        [Header("Shake options")] 
+        [SerializeField] string _shakeMessage = "I forgot to put it";
+        [SerializeField] float _shakeMessageLength = 3.0f;
+
         [SerializeField] float _shakeTime = 0.5f;
         [SerializeField] float _shakeSpeed = 25.0f;
         [SerializeField] float _shakeAmount = 4.0f;
@@ -105,6 +109,7 @@ namespace WormsGame.MainMenu
 
         public void TriggerShaking()
         {
+            PopUpMessage.Instance.DisplayPopUpMessage(_shakeMessage,_shakeMessageLength);
             if (_shakingCoroutine != null) return;
             _shakingCoroutine = StartCoroutine(ShakeText(this.gameObject));
         }

@@ -387,11 +387,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   setStartingHealth: 0
-  _deathDelay: 2
-  _handTransform: {fileID: 5480354756336135964}
-  _alliance: 0
   _animator: {fileID: 0}
   _teamColor: {r: 0, g: 0, b: 0, a: 1}
+  _alliance: 0
+  _deathDelay: 2
 --- !u!114 &7626588313335157975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -410,7 +409,7 @@ MonoBehaviour:
   groundedRadius: 0.5
   _groundLayers:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 9
 --- !u!114 &3834938047280757631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -423,9 +422,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b128754ccb34e5149b80c69d30eba749, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _update: 0
-  _direction: {x: 0, y: 0, z: 0}
-  _force: 0
   _impactReductionSpeed: 2
 --- !u!114 &4021439932200518803
 MonoBehaviour:

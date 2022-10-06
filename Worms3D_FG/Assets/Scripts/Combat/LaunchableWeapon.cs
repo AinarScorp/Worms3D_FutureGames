@@ -11,7 +11,7 @@ namespace WormsGame.Combat
         [SerializeField] int _maxDamage = 10;
         [SerializeField] int _minDamage = 1;
 
-        [SerializeField] Projectile projectilePrefab;
+        [SerializeField] LaunchableProjectile projectilePrefab;
 
         public int MaxDamage => _maxDamage;
         public int MinDamage => _minDamage;
@@ -21,7 +21,7 @@ namespace WormsGame.Combat
             base.Fire(spawnPos, launchForce,direction);
             if (projectilePrefab == null) return;
             WeaponInfo weaponInfo = new WeaponInfo(_minDamage, _maxDamage, pushForce);
-            Projectile projectile = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
+            LaunchableProjectile projectile = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
             projectile.SetupProjectile(_gameObjectToIgnore,direction, weaponInfo, launchForce);
         }
     }

@@ -9,10 +9,9 @@ namespace WormsGame.Inventory
 {
     public class Inventory : MonoBehaviour
     {
-        [SerializeField] List<Weapon> _availableWeapons = new List<Weapon>();
         [SerializeField] Transform _inventoryUI;
         TurnHandler _turnHandler;
-
+        
         void Awake()
         {
             _turnHandler = FindObjectOfType<TurnHandler>();
@@ -24,7 +23,9 @@ namespace WormsGame.Inventory
                 return;
             
             //newWeapon.SpawnWeapon(_turnHandler.CurrentUnit.HandTransform);
-            _turnHandler.CurrentUnit.CombatController.AssignNewWeapon(newWeapon); //think about this
+            CombatController combatController = _turnHandler.CurrentUnit.GetComponent<CombatController>();
+            
+            combatController.AssignNewWeapon(newWeapon); //think about this
             ToggleInventoryUI();
         }
 

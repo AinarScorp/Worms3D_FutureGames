@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using WormsGame.Combat;
 using WormsGame.Inputs;
@@ -40,7 +39,6 @@ namespace WormsGame.Units
         public TeamAlliance Alliance => _alliance;
         public Color TeamColor => _teamColor;
         public InputHandler InputHandler => _inputHandler;
-        public CombatController CombatController => _combatController;
 
         public PlayerController PlayerController => _playerController;
 
@@ -95,10 +93,7 @@ namespace WormsGame.Units
             if (_currentHealth<=0)
             {
                 _currentHealth = 0;
-                Dying?.Invoke(this);
-                _animator.SetTrigger("HasDied");
-                StartCoroutine(DestroyMe());
-
+                Die();
             }
             else if (_currentHealth<startingHealth)
             {
@@ -106,7 +101,15 @@ namespace WormsGame.Units
             }
             HealthModifed?.Invoke(startingHealth, _currentHealth);
         }
-        
+
+        void Die()
+        {
+            ToggleActivation(false);
+            Dying?.Invoke(this);
+            _animator.SetTrigger("HasDied");
+            StartCoroutine(DestroyMe());
+        }
+
         IEnumerator DestroyMe()
         {
             yield return new WaitForSeconds(_deathDelay);
@@ -122,9 +125,7 @@ namespace WormsGame.Units
         public void ToggleActivation(bool turnOn)
         {
             _inputHandler.enabled = turnOn;
-            if (!turnOn)
-                _combatController.CurrentWeapon?.DestroyOldWeapon();
-            
+
         }
     }
 

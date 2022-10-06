@@ -48,25 +48,19 @@ namespace WormsGame.Movement
 
         //Jumping
         float _jumpCooldownTimer;
-
-        //Physics
-
-        CustomGravity _customGravity;
-
-
+        
         // Camera Cinemachine
         Transform _cameraMain;
         float _cameraYaw, _cameraPitch;
-
         float _turnSmoothVelocity;
 
         //cached
+        CustomGravity _customGravity;
         InputHandler _inputHandler;
 
         #endregion
 
         #region Properties
-        public InputHandler InputHandler => _inputHandler;
         public Transform ThirdPersonCamTarget => _thirdPersonCamTarget;
         public Transform FirstPersonCamTarget => _firstPersonCamTarget;
 

@@ -33,7 +33,11 @@ namespace WormsGame.Combat
             _turnHandler = FindObjectOfType<TurnHandler>();
 
             _inputHandler.SubscribeToActivation(()=>this.enabled = true, true);
-            _inputHandler.SubscribeToActivation(()=>this.enabled = false, false);
+            _inputHandler.SubscribeToActivation(()=>
+            {
+                _currentWeapon?.DestroyOldWeapon();
+                this.enabled = false;
+            }, false);
             _chargeBar = GameObject.FindWithTag("ChargeBar").GetComponent<Image>();
         }
         

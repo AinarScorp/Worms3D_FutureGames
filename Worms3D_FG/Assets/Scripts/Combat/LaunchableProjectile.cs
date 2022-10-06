@@ -57,13 +57,13 @@ namespace WormsGame.Combat
                 Unit hitUnit = collision.collider.GetComponent<Unit>();
                 if (hitUnit!=null && _thisUnitHasShot == hitUnit.gameObject) return;
                 _exlosionPoint = transform.position;
-                Explode();
+                Explode(hitUnit);
                 //Debug.Log("Hit with Layermask");
                 this.gameObject.SetActive(false);
             }
         }
 
-        void Explode()
+        void Explode(Unit hitUnit)
         {
             hasCollided = true;
             _rigidbody.velocity *= 0;
@@ -79,7 +79,7 @@ namespace WormsGame.Combat
                 if (unit !=null)
                 {
                     Vector3 direction = unit.transform.position - _exlosionPoint;
-                    int damage = DamageFromExplosion(unit);
+                    int damage = DamageFromExplosion(unit, unit == hitUnit);
                     unit.ModifyHealth(-damage);
                     unit.Push(direction, _weaponInfo.PushForce * damage);
 
@@ -87,11 +87,14 @@ namespace WormsGame.Combat
             }
         }
         //here I should have a way to calculate the obstacles and distance
-        int DamageFromExplosion(Unit targetUnit)
+        int DamageFromExplosion(Unit targetUnit, bool collidedWithTargetUnit)
         {
+            if (collidedWithTargetUnit) return Mathf.FloorToInt(_weaponInfo.MaxDamage);
+
             bool wasObstucted = false;
             CharacterController characterController = targetUnit.GetComponent<CharacterController>();
-            Vector3 targetCenter = targetUnit.transform.position + new Vector3(0.0f, characterController.height * 0.5f, 0.0f);
+            float unitHeight = characterController.height * 0.5f;
+            Vector3 targetCenter = targetUnit.transform.position + new Vector3(0.0f, unitHeight, 0.0f);
             RaycastHit hit;
             RaycastHit testHit;
             
@@ -101,18 +104,16 @@ namespace WormsGame.Combat
             {
                 wasObstucted = true;
             }
-
             float maxCheckDistance = wasObstucted ? _explosionRadius * 0.5f : _explosionRadius;
             if (Physics.Raycast(_exlosionPoint, directionToTarget,out hit,maxCheckDistance,_targetLayerMask.value))
             {
                 float distanceToTarget = Vector3.Distance(_exlosionPoint, hit.point);
                 
                 int receivedDamage = Mathf.FloorToInt(Mathf.Lerp(_weaponInfo.MaxDamage, _weaponInfo.MinDamage, distanceToTarget / _explosionRadius));
-                //Debug.DrawLine(_exlosionPoint,  _exlosionPoint+ directionToTarget * distanceToTarget,Color.blue, 50f);
-                //print($"{transform.position} + {targetUnit.name} + collider: {hit.collider.name}");
                 return receivedDamage;
             }
-            return 0;
+            Debug.LogError("sth is wrong with damage calculations");
+            return -9999;
         }
 
         void OnDrawGizmosSelected()

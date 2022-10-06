@@ -980,6 +980,8 @@ MonoBehaviour:
   _healthIncerements: 50
   _maxHealth: 500
   _displayHealthText: {fileID: 8933379409798073853}
+  _shakeMessage: You must have different creatures
+  _shakeMessageLength: 3
   _shakeTime: 0.5
   _shakeSpeed: 25
   _shakeAmount: 4

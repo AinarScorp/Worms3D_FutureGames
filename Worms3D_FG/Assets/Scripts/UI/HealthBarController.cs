@@ -38,6 +38,7 @@ namespace WormsGame.UI
         void OnDestroy()
         {
             Unit.UnitSpawned -= AddHealthBar;
+            
         }
 
 
