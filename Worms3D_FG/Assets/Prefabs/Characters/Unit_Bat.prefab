@@ -11,6 +11,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bat_Red
       objectReference: {fileID: 0}
+    - target: {fileID: 1000011593744314, guid: 67f0474ce7d8d344fa04ba561d36d761, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4000010273486942, guid: 67f0474ce7d8d344fa04ba561d36d761, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -181,6 +185,11 @@ PrefabInstance:
       propertyPath: _animator
       value: 
       objectReference: {fileID: 6555930177785584518}
+    - target: {fileID: 7107733721671389150, guid: fb282525580881944a5e22fd74c6754a,
+        type: 3}
+      propertyPath: _moveSpeed
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fb282525580881944a5e22fd74c6754a, type: 3}
 --- !u!4 &32971712970042331 stripped

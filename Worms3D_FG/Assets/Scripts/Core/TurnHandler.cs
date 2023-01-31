@@ -96,6 +96,7 @@ namespace WormsGame.Core
                 _currentUnit.ToggleActivation(false);
             FinishTurn();
         }
+
         public void FinishTurn()
         {
             TurnFinished?.Invoke();

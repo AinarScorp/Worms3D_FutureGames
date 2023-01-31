@@ -277,6 +277,7 @@ GameObject:
   - component: {fileID: 7626588313335157975}
   - component: {fileID: 3834938047280757631}
   - component: {fileID: 4021439932200518803}
+  - component: {fileID: 8517653208029898974}
   m_Layer: 6
   m_Name: Unit
   m_TagString: Player
@@ -345,7 +346,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad89ddbbb4343bd419acff638e9963d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 10
+  _moveSpeed: 20
   _rotationSmoothTime: 0.1
   _thirdPersonCamTarget: {fileID: 7107733720429024063}
   _firstPersonCamTarget: {fileID: 7106129188537164370}
@@ -435,3 +436,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4276c495911126478747100afdcd996, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!81 &8517653208029898974
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7107733721671389091}
+  m_Enabled: 1

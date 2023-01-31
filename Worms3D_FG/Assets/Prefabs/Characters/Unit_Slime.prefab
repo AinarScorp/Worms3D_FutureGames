@@ -159,11 +159,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7107733721671389150, guid: fb282525580881944a5e22fd74c6754a,
         type: 3}
-      propertyPath: _moveSpeed
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 7107733721671389150, guid: fb282525580881944a5e22fd74c6754a,
-        type: 3}
       propertyPath: groundedRadius
       value: 0.56
       objectReference: {fileID: 0}
