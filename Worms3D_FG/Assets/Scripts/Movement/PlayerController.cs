@@ -72,12 +72,15 @@ namespace WormsGame.Movement
         void Awake()
         {
             if (_animator == null)
+            {
                 _animator = GetComponentInChildren<Animator>();
-            
+            }
+            //Cache components
             _inputHandler = GetComponent<InputHandler>();
             _customGravity = GetComponent<CustomGravity>();
             _cameraMain = Camera.main.transform;
             
+            //Subscribe to events
             _inputHandler.SubscribeToActivation(() => this.enabled = true, true);
             _inputHandler.SubscribeToActivation(() => this.enabled = false, false);
             
@@ -122,8 +125,10 @@ namespace WormsGame.Movement
             moveDirection = Quaternion.Euler(0f, _targetAngle, 0f) * Vector3.forward;
             moveDirection.Normalize();
 
-            if (_animator != null )
+            if (_animator != null)
+            {
                 _animator.SetBool("isMoving", horizontalSpeed > 0.1f);
+            }
 
 
         }
@@ -155,9 +160,13 @@ namespace WormsGame.Movement
             _cameraPitch = ClampAngle(_cameraPitch, cameraBottomClamp, cameraTopClamp);
 
             if (_inputHandler.IsAiming)
+            {
                 _firstPersonCamTarget.rotation = Quaternion.Euler(-_cameraPitch, _cameraYaw, 0.0f);
+            }
             else
+            {
                 _thirdPersonCamTarget.rotation = Quaternion.Euler(-_cameraPitch, _cameraYaw, 0.0f);
+            }
         }
 
 
@@ -187,8 +196,14 @@ namespace WormsGame.Movement
         
         float ClampAngle(float lfAngle, float lfMin, float lfMax)
         {
-            if (lfAngle < -360f) lfAngle += 360f;
-            if (lfAngle > 360f) lfAngle -= 360f;
+            if (lfAngle < -360f)
+            {
+                lfAngle += 360f;
+            }
+            if (lfAngle > 360f)
+            {
+                lfAngle -= 360f;
+            }
             return Mathf.Clamp(lfAngle, lfMin, lfMax);
         }
     }

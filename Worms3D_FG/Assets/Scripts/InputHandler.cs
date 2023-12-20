@@ -75,9 +75,13 @@ namespace WormsGame.Inputs
         public void SubscribeToActivation(Action actionToSubscribe, bool toEnabled)
         {
             if (toEnabled)
+            {
                 InputsEnabled += actionToSubscribe;
+            }
             else
+            {
                 InputsDisabled += actionToSubscribe;
+            }
         }
     }
 }
