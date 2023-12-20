@@ -97,7 +97,13 @@ PrefabInstance:
       propertyPath: _animator
       value: 
       objectReference: {fileID: 6645386964977644954}
-    m_RemovedComponents: []
+    - target: {fileID: 7107733721671389150, guid: fb282525580881944a5e22fd74c6754a,
+        type: 3}
+      propertyPath: _moveSpeed
+      value: 540
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 8517653208029898974, guid: fb282525580881944a5e22fd74c6754a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: fb282525580881944a5e22fd74c6754a, type: 3}
 --- !u!4 &4277424550699018875 stripped
 Transform:
